@@ -18,5 +18,14 @@
         "quotes": ["error", "single"],
         "semi": ["error", "always"],
         "@typescript-eslint/no-var-requires": 0
-    }
+    },
+    // "overrides": [
+    //     {
+    //         "files": ["dist/*"], // Or *.test.js
+    //         "rules": {
+    //             "require-jsdoc": "off"
+    //         }
+    //     }
+    // ]
+    "ignorePatterns": ["dist/*"]
 }
