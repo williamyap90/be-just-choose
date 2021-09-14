@@ -4,7 +4,7 @@ interface IUser {
     firstName: string;
     lastName: string;
     email: string;
-    eventHistory: Array<Number>;
+    eventHistory: Array<number>;
     password: string;
 }
 

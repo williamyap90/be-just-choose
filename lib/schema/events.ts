@@ -5,11 +5,21 @@ interface IEvent {
     eventURL: string;
     dateCreated: Date;
     organiser: string;
-    restaurantList: Array<Object>;
+    restaurantList: Array<IRestaurantList>;
     isDraft: boolean;
-    voters: Array<Object>;
-    winningRestaurant: Object;
+    voters: Array<string>;
+    winningRestaurant: {
+        restaurantName: string;
+        cuisine: string;
+        priceRange: string;
+    };
     endDate: Date;
+}
+
+interface IRestaurantList {
+    restaurantName: string;
+    cuisine: string;
+    priceRange: string;
 }
 
 interface IEventDocument extends IEvent, Document {}
