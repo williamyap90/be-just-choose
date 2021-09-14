@@ -1,6 +1,8 @@
 import express, { Application, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import { User } from '../schema/users';
+import { Event } from '../schema/events';
 
 dotenv.config();
 
@@ -20,5 +22,28 @@ db.once('open', () => {
 app.get('/', (req: Request, res: Response) => {
     res.send('hello');
 });
+
+const test = async () => {
+    try {
+        const usersList = await User.find({});
+        const eventList = await Event.find({});
+        console.log('here');
+        console.log(usersList, ' UL');
+        console.log(eventList, 'EL');
+    } catch (err) {
+        console.log(err);
+    }
+};
+test();
+
+// const addUser = async () => {
+//     const newUser = new User({
+//         firstName: 'Scott',
+//         lastName: 'Schema',
+//         email: 'sgm@sgm.co.uk',
+//         eventHistory: [],
+//         password: '1234567890',
+//     });
+// };
 
 export default app;
