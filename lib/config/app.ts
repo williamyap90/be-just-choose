@@ -1,12 +1,13 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import { User } from '../schema/users';
-import { Event } from '../schema/events';
+import { IUser } from '../db/interfaces/users'
+import { IEvent } from '../db/interfaces/events'
 
 dotenv.config();
 
-const app: Application = express();
+const app = express();
+//throw error if dburl not set
 const dbURL = process.env.DATABASE_URL || '';
 mongoose.connect(dbURL);
 
@@ -23,27 +24,44 @@ app.get('/', (req: Request, res: Response) => {
     res.send('hello');
 });
 
-const test = async () => {
+//params,body, queries
+const helloFunction:express.RequestHandler<{param: string}, string, {query : string}> = (req, res) =>{
+        res.send('hello');
+        const something = req.body
+}
+
+const getUsersAndEvents = async () => {
     try {
-        const usersList = await User.find({});
-        const eventList = await Event.find({});
-        console.log('here');
-        console.log(usersList, ' UL');
-        console.log(eventList, 'EL');
+        // const usersList = await User.find({});
+        // const eventList = await Event.find({});
+
+        const getUsers = db.collection('users').find({});
+        console.log(getUsers, ' UL');
     } catch (err) {
         console.log(err);
     }
 };
-test();
+const addUser = async () => {
+    const newUser:IUser = {
+        firstName: 'Ammar',
+        lastName: 'Hassan',
+        email: 'sgm@sgm.co.uk',
+        eventHistory: [],
+        password: '1234567890',
+    };
+    try {
+        const insertUser = await db.collection('users').insertOne(newUser)
+        console.log('inserting user...');
+        console.log(insertUser);
+        getUsersAndEvents();
 
-// const addUser = async () => {
-//     const newUser = new User({
-//         firstName: 'Scott',
-//         lastName: 'Schema',
-//         email: 'sgm@sgm.co.uk',
-//         eventHistory: [],
-//         password: '1234567890',
-//     });
-// };
+    } catch(err) {
+        console.error(err);
+    }
+};
+
+getUsersAndEvents()
+addUser();
+
 
 export default app;
