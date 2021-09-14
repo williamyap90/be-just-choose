@@ -15,10 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const users_1 = require("../schema/users");
-const events_1 = require("../schema/events");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
+//throw error if dburl not set
 const dbURL = process.env.DATABASE_URL || '';
 mongoose_1.default.connect(dbURL);
 const db = mongoose_1.default.connection;
@@ -31,26 +30,40 @@ db.once('open', () => {
 app.get('/', (req, res) => {
     res.send('hello');
 });
-const test = () => __awaiter(void 0, void 0, void 0, function* () {
+//params,body, queries
+const helloFunction = (req, res) => {
+    res.send('hello');
+    const something = req.body;
+};
+const getUsersAndEvents = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const usersList = yield users_1.User.find({});
-        const eventList = yield events_1.Event.find({});
-        console.log('here');
-        console.log(usersList, ' UL');
-        console.log(eventList, 'EL');
+        // const usersList = await User.find({});
+        // const eventList = await Event.find({});
+        const getUsers = db.collection('users').find({});
+        console.log(getUsers, ' UL');
     }
     catch (err) {
         console.log(err);
     }
 });
-test();
-// const addUser = async () => {
-//     const newUser = new User({
-//         firstName: 'Scott',
-//         lastName: 'Schema',
-//         email: 'sgm@sgm.co.uk',
-//         eventHistory: [],
-//         password: '1234567890',
-//     });
-// };
+const addUser = () => __awaiter(void 0, void 0, void 0, function* () {
+    const newUser = {
+        firstName: 'Ammar',
+        lastName: 'Hassan',
+        email: 'sgm@sgm.co.uk',
+        eventHistory: [],
+        password: '1234567890',
+    };
+    try {
+        const insertUser = yield db.collection('users').insertOne(newUser);
+        console.log('inserting user...');
+        console.log(insertUser);
+        getUsersAndEvents();
+    }
+    catch (err) {
+        console.error(err);
+    }
+});
+getUsersAndEvents();
+addUser();
 exports.default = app;
