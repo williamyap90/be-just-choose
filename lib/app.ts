@@ -2,14 +2,20 @@ import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { MongoClient } from 'mongodb';
 import dotenv from 'dotenv';
-import { IUser } from '../db/interfaces/users';
-import { IEvent } from '../db/interfaces/events';
+import { IUser } from './db/interfaces/users';
+import { IEvent } from './db/interfaces/events';
+import cors from 'cors';
 
 dotenv.config();
 
 const app = express();
 //throw error if dburl not set
-const dbURL = process.env.DATABASE_URL || '';
+let dbURL;
+if(!process.env.DATABASE_URL) {
+    throw new Error("No database set");
+} else {
+ dbURL = process.env.DATABASE_URL;
+}
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -27,6 +33,10 @@ MongoClient.connect(dbURL)
 
 app.use(express.json());
 
+
+
+
+app.use(cors());
 // http://localhost:3000/ <= prints 'Hello from server!'
 app.get('/', (req, res) => {
     res.end('Hello from server!');
@@ -40,18 +50,33 @@ app.get('/users', (req, res) => {
     getUsers();
 });
 
-// app.post('/add-user', (req, res) => {
-//     const newUser: IUser = req.body;
+app.post('/users', async (req, res) => {
+    // const newUser: IUser = req.body;
 
-//     // const newUser: IUser = {
-//     //     firstName: 'Scott',
-//     //     lastName: 'PGPGG',
-//     //     email: 'scc@hotmail.com',
-//     //     eventHistory: [],
-//     //     password: '1234567890',
-//     // };
-//     // db.collection('users').insertOne(newUser);
-// });
+    const newUser: IUser = {
+        firstName: 'Matt',
+        lastName: 'Webbo',
+        email: 'webbfeet@gmail.com',
+        eventHistory: [],
+        password: '1234567890',
+    };
+    console.log('inserting...');
+     const response = await db.collection('users').insertOne(newUser)
+     console.log(response);
+    //  .then((result: any) => console.log(`inserted ${result}`))
+    //  .catch((err: any) => console.log(err));
+    
+});
+
+app.patch('/users/:firstName', async (req, res) => {
+    const { email }  =  req.body ;
+    console.log(email);
+    console.log(req.body);
+    console.log(req.params)
+    console.log('patching...')
+    const response = await db.collection('users').updateOne({firstName : req.params.firstName}, { $set :  { email : email }});
+    console.log(response);
+})
 
 //////////////////////////////////////////////////////////////////////////
 
