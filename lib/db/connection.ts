@@ -13,7 +13,7 @@ if (!process.env.DATABASE_URL) {
 let db: any;
 
 export default {
-    connectToServer: function (callback: Function) {
+    connectToServer: function (callback: any) {
         MongoClient.connect(dbURL, function (err, client) {
             if (client) db = client.db();
             return callback(err);
