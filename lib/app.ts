@@ -12,9 +12,9 @@ const app = express();
 //throw error if dburl not set
 let dbURL;
 if(!process.env.DATABASE_URL) {
-    throw new Error("No database set");
+    throw new Error('No database set');
 } else {
- dbURL = process.env.DATABASE_URL;
+    dbURL = process.env.DATABASE_URL;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -61,8 +61,8 @@ app.post('/users', async (req, res) => {
         password: '1234567890',
     };
     console.log('inserting...');
-     const response = await db.collection('users').insertOne(newUser)
-     console.log(response);
+    const response = await db.collection('users').insertOne(newUser);
+    console.log(response);
     //  .then((result: any) => console.log(`inserted ${result}`))
     //  .catch((err: any) => console.log(err));
     
@@ -72,11 +72,11 @@ app.patch('/users/:firstName', async (req, res) => {
     const { email }  =  req.body ;
     console.log(email);
     console.log(req.body);
-    console.log(req.params)
-    console.log('patching...')
+    console.log(req.params);
+    console.log('patching...');
     const response = await db.collection('users').updateOne({firstName : req.params.firstName}, { $set :  { email : email }});
     console.log(response);
-})
+});
 
 //////////////////////////////////////////////////////////////////////////
 

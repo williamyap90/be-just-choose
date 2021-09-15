@@ -15,10 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongodb_1 = require("mongodb");
 const dotenv_1 = __importDefault(require("dotenv"));
+const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 //throw error if dburl not set
-const dbURL = process.env.DATABASE_URL || '';
+let dbURL;
+if (!process.env.DATABASE_URL) {
+    throw new Error('No database set');
+}
+else {
+    dbURL = process.env.DATABASE_URL;
+}
 //////////////////////////////////////////////////////////////////////////
 // Declaring db type any to avoid TS error
 let db;
@@ -31,6 +38,7 @@ mongodb_1.MongoClient.connect(dbURL)
     console.log(err);
 });
 app.use(express_1.default.json());
+app.use((0, cors_1.default)());
 // http://localhost:3000/ <= prints 'Hello from server!'
 app.get('/', (req, res) => {
     res.end('Hello from server!');
@@ -42,17 +50,30 @@ app.get('/users', (req, res) => {
     });
     getUsers();
 });
-app.post('/add-user', (req, res) => {
-    const newUser = req.body;
-    // const newUser: IUser = {
-    //     firstName: 'Scott',
-    //     lastName: 'PGPGG',
-    //     email: 'scc@hotmail.com',
-    //     eventHistory: [],
-    //     password: '1234567890',
-    // };
-    // db.collection('users').insertOne(newUser);
-});
+app.post('/users', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // const newUser: IUser = req.body;
+    const newUser = {
+        firstName: 'Matt',
+        lastName: 'Webbo',
+        email: 'webbfeet@gmail.com',
+        eventHistory: [],
+        password: '1234567890',
+    };
+    console.log('inserting...');
+    const response = yield db.collection('users').insertOne(newUser);
+    console.log(response);
+    //  .then((result: any) => console.log(`inserted ${result}`))
+    //  .catch((err: any) => console.log(err));
+}));
+app.patch('/users/:firstName', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.body;
+    console.log(email);
+    console.log(req.body);
+    console.log(req.params);
+    console.log('patching...');
+    const response = yield db.collection('users').updateOne({ firstName: req.params.firstName }, { $set: { email: email } });
+    console.log(response);
+}));
 //////////////////////////////////////////////////////////////////////////
 // // Connection URL
 // const client = new MongoClient(dbURL);
