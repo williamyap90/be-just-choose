@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { IUser } from './db/interfaces/users';
 import { IEvent } from './db/interfaces/events';
 import cors from 'cors';
+import apiRouter from './Routers/ApiRouter';
 
 dotenv.config();
 
@@ -38,6 +39,8 @@ app.use(express.json());
 
 app.use(cors());
 // http://localhost:3000/ <= prints 'Hello from server!'
+
+app.use('/api', apiRouter);
 app.get('/', (req, res) => {
     res.end('Hello from server!');
 });

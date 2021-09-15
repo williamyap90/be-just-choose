@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const mongodb_1 = require("mongodb");
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
+const ApiRouter_1 = __importDefault(require("./Routers/ApiRouter"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 //throw error if dburl not set
@@ -40,6 +41,7 @@ mongodb_1.MongoClient.connect(dbURL)
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 // http://localhost:3000/ <= prints 'Hello from server!'
+app.use('/api', ApiRouter_1.default);
 app.get('/', (req, res) => {
     res.end('Hello from server!');
 });
