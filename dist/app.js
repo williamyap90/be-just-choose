@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.db = void 0;
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const ApiRouter_1 = __importDefault(require("./Routers/ApiRouter"));
@@ -10,7 +11,6 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const Schemas_1 = require("./Schemas/Schemas");
 const body_parser_1 = __importDefault(require("body-parser"));
-////////////////////////////////////////////////////////////////////////////////
 dotenv_1.default.config();
 let dbURL;
 if (!process.env.DATABASE_URL) {
@@ -21,8 +21,9 @@ else {
 }
 mongoose_1.default
     .connect(dbURL)
-    .then(() => {
+    .then((dbConnection) => {
     console.log('database connection success!');
+    exports.db = dbConnection;
 })
     .catch((err) => {
     console.log(err);

@@ -7,7 +7,6 @@ import dotenv from 'dotenv';
 import { User, Event } from './Schemas/Schemas';
 import bodyParser from 'body-parser';
 
-////////////////////////////////////////////////////////////////////////////////
 dotenv.config();
 let dbURL: any;
 if (!process.env.DATABASE_URL) {
@@ -16,16 +15,16 @@ if (!process.env.DATABASE_URL) {
     dbURL = process.env.DATABASE_URL;
 }
 
+export let db: any;
 mongoose
     .connect(dbURL)
-    .then(() => {
+    .then((dbConnection) => {
         console.log('database connection success!');
-
+        db = dbConnection;
     })
     .catch((err) => {
         console.log(err);
     });
-
 
 const app = express();
 
@@ -62,7 +61,6 @@ app.get('/api/users', (req, res) => {
                 res.status(404).send();
             }
             res.status(200).send(user);
-            mongoose.disconnect();
         })
         .catch((err) => {
             res.status(400).send(err);
