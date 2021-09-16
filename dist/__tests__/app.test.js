@@ -27,6 +27,6 @@ describe('GET /api/users', () => {
     test.only('status 200 - returns a JSON describing all available endpoints', () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield request(app).get('/api/users').expect(200);
         // expect(res.body.endpoints).toEqual(JSONEndPointsFile);
-        console.log(res.body);
+        console.log(res, "<<<<<<<");
     }));
 });
