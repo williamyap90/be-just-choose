@@ -34,7 +34,7 @@ app.use(body_parser_1.default.json());
 app.get('/', (req, res) => {
     res.send('hello!!');
 });
-app.post('/users', (req, res) => {
+app.post('/api/users', (req, res) => {
     const newUser = new Schemas_1.User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -51,7 +51,7 @@ app.post('/users', (req, res) => {
         res.status(400).send(err);
     });
 });
-app.get('/users', (req, res) => {
+app.get('/api/users', (req, res) => {
     Schemas_1.User.find({})
         .then((user) => {
         if (!user) {
@@ -63,7 +63,7 @@ app.get('/users', (req, res) => {
         res.status(400).send(err);
     });
 });
-app.get('/users/:email', (req, res) => {
+app.get('/api/users/:email', (req, res) => {
     Schemas_1.User.findOne({ email: req.params.email })
         .then((user) => {
         if (!user) {
@@ -75,7 +75,7 @@ app.get('/users/:email', (req, res) => {
         res.status(400).send(err);
     });
 });
-app.patch('/users/:email', (req, res) => {
+app.patch('/api/users/:email', (req, res) => {
     Schemas_1.User.findOne({ email: req.params.email })
         .then((user) => {
         // const updateBody = req.body;
@@ -92,7 +92,7 @@ app.patch('/users/:email', (req, res) => {
         res.status(400).send(err);
     });
 });
-app.delete('/users/:email', (req, res) => {
+app.delete('/api/users/:email', (req, res) => {
     Schemas_1.User.findOneAndRemove({ email: req.params.email })
         .then((user) => {
         if (!user) {

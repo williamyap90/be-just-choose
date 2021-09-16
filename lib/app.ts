@@ -15,14 +15,17 @@ if (!process.env.DATABASE_URL) {
 } else {
     dbURL = process.env.DATABASE_URL;
 }
+
 mongoose
     .connect(dbURL)
     .then(() => {
         console.log('database connection success!');
+
     })
     .catch((err) => {
         console.log(err);
     });
+
 
 const app = express();
 
@@ -34,7 +37,7 @@ app.get('/', (req, res) => {
     res.send('hello!!');
 });
 
-app.post('/users', (req, res) => {
+app.post('/api/users', (req, res) => {
     const newUser = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -52,20 +55,21 @@ app.post('/users', (req, res) => {
         });
 });
 
-app.get('/users', (req, res) => {
+app.get('/api/users', (req, res) => {
     User.find({})
         .then((user) => {
             if (!user) {
                 res.status(404).send();
             }
             res.status(200).send(user);
+            mongoose.disconnect();
         })
         .catch((err) => {
             res.status(400).send(err);
         });
 });
 
-app.get('/users/:email', (req, res) => {
+app.get('/api/users/:email', (req, res) => {
     User.findOne({ email: req.params.email })
         .then((user) => {
             if (!user) {
@@ -78,7 +82,7 @@ app.get('/users/:email', (req, res) => {
         });
 });
 
-app.patch('/users/:email', (req, res) => {
+app.patch('/api/users/:email', (req, res) => {
     User.findOne({ email: req.params.email })
         .then((user) => {
             // const updateBody = req.body;
@@ -97,7 +101,7 @@ app.patch('/users/:email', (req, res) => {
         });
 });
 
-app.delete('/users/:email', (req, res) => {
+app.delete('/api/users/:email', (req, res) => {
     User.findOneAndRemove({ email: req.params.email })
         .then((user) => {
             if (!user) {
