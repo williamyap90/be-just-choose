@@ -26,6 +26,7 @@
         "body-parser": "^1.19.0",
         "cors": "^2.8.5",
         "express": "^4.17.1",
+        "faker": "^5.5.3",
         "mongodb": "^4.1.1",
         "mongoose": "^6.0.5",
         "nodemon": "^2.0.12",
@@ -33,6 +34,7 @@
     },
     "devDependencies": {
         "@types/cors": "^2.8.12",
+        "@types/faker": "^5.5.8",
         "@types/jest": "^27.0.1",
         "@types/supertest": "^2.0.11",
         "@typescript-eslint/eslint-plugin": "^4.31.0",
