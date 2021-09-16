@@ -7,5 +7,5 @@ const UsersController_1 = require("../Controllers/UsersController");
 const express_1 = __importDefault(require("express"));
 const usersRouter = express_1.default.Router();
 usersRouter.route('/').get(UsersController_1.getUsers);
-usersRouter.route('/:email').get(UsersController_1.getUserByEmail);
+// usersRouter.route('/:email').get(getUserByEmail);
 exports.default = usersRouter;
