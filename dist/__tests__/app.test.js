@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const request = require('supertest');
 const app = require('../app').default;
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const JSONEndPointsFile = require('../endpoints.json');
 // const connection = require('../db/connection');
 const db = require('../db/connection.ts');
@@ -19,7 +19,7 @@ beforeAll((done) => {
 });
 afterAll(() => {
     // Closing the DB connection allows Jest to exit successfully.
-    return db.close();
+    return mongoose.disconnect();
 });
 describe('GET /api', () => {
     test('status 200 - returns a JSON describing all available endpoints', () => __awaiter(void 0, void 0, void 0, function* () {
@@ -28,7 +28,7 @@ describe('GET /api', () => {
     }));
 });
 describe('GET /api/users', () => {
-    test.only('status 200 - returns a JSON describing all available endpoints', () => __awaiter(void 0, void 0, void 0, function* () {
+    test('status 200 - returns a a list of the users', () => __awaiter(void 0, void 0, void 0, function* () {
         return request(app).get('/api/users').expect(200);
         // expect(Array.isArray(res.body.users)).toBe(true);
     }));
