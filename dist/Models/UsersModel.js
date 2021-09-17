@@ -14,7 +14,6 @@ const Schemas_1 = require("../Schemas/Schemas");
 // import { db } from '../db/connection'
 const findUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     const response = yield Schemas_1.User.find({});
-    console.log(response);
     return response;
 });
 exports.findUsers = findUsers;

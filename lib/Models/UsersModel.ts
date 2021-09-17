@@ -1,13 +1,7 @@
-
 import { User } from '../Schemas/Schemas';
-// import { db } from '../db/connection'
-
-
-
 
 export const findUsers = async () => {
     const response = await User.find({});
-    console.log(response);
     return response;
 };
 
