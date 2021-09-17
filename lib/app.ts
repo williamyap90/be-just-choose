@@ -1,30 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import apiRouter from './Routers/ApiRouter';
-
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 import { User, Event } from './Schemas/Schemas';
 import bodyParser from 'body-parser';
+import {db} from './db/connection';
 
-dotenv.config();
-let dbURL: any;
-if (!process.env.DATABASE_URL) {
-    throw new Error('No database set');
-} else {
-    dbURL = process.env.DATABASE_URL;
-}
-
-export let db: any;
-mongoose
-    .connect(dbURL)
-    .then((dbConnection) => {
-        db = dbConnection;
-        console.log('Database connection success!');
-    })
-    .catch((err) => {
-        console.log(err);
-    });
+// console.log(db, '<<<<< DB')
 
 const app = express();
 
@@ -42,23 +23,23 @@ app.get('/', (req, res) => {
 
 app.use('/api', apiRouter);
 
-app.post('/api/users', (req, res) => {
-    const newUser = new User({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        eventHistory: [],
-        password: req.body.password,
-    });
-    newUser
-        .save()
-        .then((user) => {
-            res.status(201).send(user);
-        })
-        .catch((err) => {
-            res.status(400).send(err);
-        });
-});
+// app.post('/api/users', (req, res) => {
+//     const newUser = new User({
+//         firstName: req.body.firstName,
+//         lastName: req.body.lastName,
+//         email: req.body.email,
+//         eventHistory: [],
+//         password: req.body.password,
+//     });
+//     newUser
+//         .save()
+//         .then((user) => {
+//             res.status(201).send(user);
+//         })
+//         .catch((err) => {
+//             res.status(400).send(err);
+//         });
+// });
 
 app.patch('/api/users/:email', (req, res) => {
     User.findOne({ email: req.params.email })

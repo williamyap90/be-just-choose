@@ -1,17 +1,18 @@
 const request = require('supertest');
 const app = require('../app').default;
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const JSONEndPointsFile = require('../endpoints.json');
-const connection = require('../db/connection');
+// const connection = require('../db/connection');
+const db = require ('../db/connection.ts');
 
 beforeAll((done) => {
     done();
 });
 
-afterAll((done) => {
+afterAll(() => {
     // Closing the DB connection allows Jest to exit successfully.
-    mongoose.connection.close();
-    done();
+    return db.close();
+    
 });
 
 describe('GET /api', () => {
@@ -22,7 +23,8 @@ describe('GET /api', () => {
 });
 describe('GET /api/users', () => {
     test.only('status 200 - returns a JSON describing all available endpoints', async () => {
-        const res = await request(app).get('/api/users').expect(200);
-        expect(Array.isArray(res.body)).toBe(true);
+        return request(app).get('/api/users').expect(200);
+        // expect(Array.isArray(res.body.users)).toBe(true);
+        
     });
 });

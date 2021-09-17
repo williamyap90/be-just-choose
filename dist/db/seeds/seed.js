@@ -1,5 +1,11 @@
 "use strict";
-const faker = require('faker');
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.usersList = void 0;
+// const faker = require('faker');
+const faker_1 = __importDefault(require("faker"));
 // const db = require('../../app');
 // const User = require('../../Schemas/Schemas');
 // import User  from '../../Schemas/Schemas';
@@ -10,12 +16,12 @@ const faker = require('faker');
 //     password: string;
 //     eventHistory: []
 // }
-const usersList = [];
+exports.usersList = [];
 for (let i = 0; i < 20; i++) {
-    const firstName = faker.name.firstName();
-    const lastName = faker.name.lastName();
+    const firstName = faker_1.default.name.firstName();
+    const lastName = faker_1.default.name.lastName();
     const email = firstName.toLowerCase() + lastName.toLowerCase() + '@test-jc.com';
-    const password = faker.internet.password();
+    const password = faker_1.default.internet.password();
     const user = {
         firstName,
         lastName,
@@ -23,10 +29,9 @@ for (let i = 0; i < 20; i++) {
         password,
         eventHistory: [],
     };
-    usersList.push(user);
+    exports.usersList.push(user);
 }
-console.log(usersList, ' UL<<');
-module.exports = { usersList };
+console.log(exports.usersList, ' UL<<');
 // export default usersList;
 // User.insertMany(usersList).then(() => {
 //     console.log('users inserted!');

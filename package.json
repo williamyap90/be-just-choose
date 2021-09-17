@@ -5,7 +5,7 @@
     "main": "./dist/server.js",
     "scripts": {
         "lint": "eslint ./",
-        "test": "jest --detectOpenHandles",
+        "test": "jest",
         "dev": "tsc && nodemon ./dist/server.js",
         "prod": "tsc && nodemon ./dist/server.js",
         "prepare": "husky install"

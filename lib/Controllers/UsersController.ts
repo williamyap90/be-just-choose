@@ -10,6 +10,7 @@ export const getUsers: express.RequestHandler = (req, res, next) => {
             res.status(200).send({ users });
         })
         .catch((err) => {
+            console.log(err);
             res.status(400).send(err);
         });
 };
