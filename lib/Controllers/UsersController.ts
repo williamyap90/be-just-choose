@@ -1,18 +1,30 @@
 import express from 'express';
-import { findUsers } from '../Models/UsersModel';
+import { findUsers, findUserByEmail } from '../Models/UsersModel';
 
 export const getUsers: express.RequestHandler = (req, res, next) => {
-    console.log('in controller');
     findUsers()
-        .then((users: any) => {
+        .then((users) => {
+            if (!users) {
+                res.status(404).send();
+            }
             res.status(200).send({ users });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+            res.status(400).send(err);
+        });
 };
 
-// export const getUserByEmail: express.RequestHandler = (req, res, next) => {
-//     const { email } = req.params;
-//     findUser(email).then((user) => {
-//         res.status(200).send({ user });
-//     });
-// };
+export const getUserByEmail: express.RequestHandler = (req, res, next) => {
+    //TODO: protect from injection for params?
+    const { email } = req.params;
+    findUserByEmail(email)
+        .then((user) => {
+            if (!user) {
+                res.status(404).send();
+            }
+            res.status(200).send({ user });
+        })
+        .catch((err) => {
+            res.status(400).send(err);
+        });
+};

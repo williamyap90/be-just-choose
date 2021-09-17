@@ -1,6 +1,4 @@
 "use strict";
-// import connection from '../db/connection';
-// import connect from '../db/connection';
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -11,22 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findUsers = void 0;
+exports.findUserByEmail = exports.findUsers = void 0;
+const Schemas_1 = require("../Schemas/Schemas");
 const findUsers = () => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('inModel');
-    // console.log(connect.connect(), '<< connect');
-    // const db = connect.getConnectedClient().db('just-choose-test');
-    // console.log(db, 'collection<<');
-    // const response = await db.collection('users').find({}).toArray();
-    // return response;
+    const response = yield Schemas_1.User.find({});
+    return response;
 });
 exports.findUsers = findUsers;
-// export const findUser = async (email: string) => {
-//     const db = connect.getConnectedClient();
-//     const response = await db
-//         .db('just-choose-test')
-//         .collection('users')
-//         .find({ email: email })
-//         .toArray();
-//     return response;
-// };
+const findUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield Schemas_1.User.findOne({ email: email });
+    console.log(response, '<<response in model');
+    return response;
+});
+exports.findUserByEmail = findUserByEmail;

@@ -36,6 +36,12 @@ app.get('/', (req, res) => {
     res.send('hello!!');
 });
 
+//////////////////////////////////////////////////////
+
+// Routers start below
+
+app.use('/api', apiRouter);
+
 app.post('/api/users', (req, res) => {
     const newUser = new User({
         firstName: req.body.firstName,
@@ -48,32 +54,6 @@ app.post('/api/users', (req, res) => {
         .save()
         .then((user) => {
             res.status(201).send(user);
-        })
-        .catch((err) => {
-            res.status(400).send(err);
-        });
-});
-
-app.get('/api/users', (req, res) => {
-    User.find({})
-        .then((user) => {
-            if (!user) {
-                res.status(404).send();
-            }
-            res.status(200).send(user);
-        })
-        .catch((err) => {
-            res.status(400).send(err);
-        });
-});
-
-app.get('/api/users/:email', (req, res) => {
-    User.findOne({ email: req.params.email })
-        .then((user) => {
-            if (!user) {
-                res.status(404).send();
-            }
-            res.status(200).send(user);
         })
         .catch((err) => {
             res.status(400).send(err);
@@ -111,8 +91,6 @@ app.delete('/api/users/:email', (req, res) => {
             res.status(400).send(err);
         });
 });
-
-app.use('/api', apiRouter);
 
 app.all('/*', () => console.log('Invalid route'));
 
