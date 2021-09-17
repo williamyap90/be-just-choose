@@ -9,7 +9,7 @@ User.collection.drop();
 Event.collection.drop();
 
 User.create(usersList)
-    .then((user: {}[]) => {
+    .then((user: any) => {
         console.log(`${user.length} users seeded`);
     })
     .catch((err: any) => {
