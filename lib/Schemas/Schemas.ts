@@ -2,14 +2,24 @@ import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema(
     {
-        firstName: String,
-        lastName: String,
+        firstName: {
+            type: String,
+            required: true,
+        },
+        lastName: {
+            type: String,
+            required: true,
+        },
         email: {
             type: String,
             unique: true,
+            required: true,
         },
         eventHistory: [{ eventId: String }],
-        password: String,
+        password: {
+            type: String,
+            required: true,
+        },
         avatarUrl: {
             type: String,
             default: 'https://climatefutures.net/cccd/images/sampleImage.png',
