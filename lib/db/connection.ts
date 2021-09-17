@@ -2,7 +2,8 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
 dotenv.config();
-let dbURL: any;
+
+export let dbURL: any;
 if (!process.env.DATABASE_URL) {
     throw new Error('No database set');
 } else {
