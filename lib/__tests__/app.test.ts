@@ -65,4 +65,43 @@ describe('POST /api/users', () => {
         expect(res.body.user.email).toBe('dave@David.com');
         expect(res.body.user.password).toBe('kjhfkjwhefkjwhefkj');
     });
+    test('status 201: responds with the newly created category and ignores unnecessary properties', async () => {
+        const newUser = {
+            firstName: 'Tom',
+            lastName: 'Thomas',
+            email: 'tom@tomtom.com',
+            password: 'tommytomtom',
+            age: 34,
+            favouriteColour: 'blue',
+        };
+        const res = await request(app)
+            .post('/api/users')
+            .send(newUser)
+            .expect(201);
+        expect(res.body.user).toHaveProperty('avatarUrl');
+        expect(res.body.user).toHaveProperty('_id');
+        expect(res.body.user).toHaveProperty('firstName');
+        expect(res.body.user).toHaveProperty('lastName');
+        expect(res.body.user).toHaveProperty('email');
+        expect(res.body.user).toHaveProperty('eventHistory');
+        expect(res.body.user).toHaveProperty('password');
+        expect(res.body.user).not.toHaveProperty('age');
+        expect(res.body.user).not.toHaveProperty('favouriteColour');
+        expect(res.body.user.firstName).toBe('Tom');
+        expect(res.body.user.lastName).toBe('Thomas');
+        expect(res.body.user.email).toBe('tom@tomtom.com');
+        expect(res.body.user.password).toBe('tommytomtom');
+    });
+    xtest('status 400 responds with an error required fields are missing', async () => {
+        const newUser = {
+            // lastName & password required fields missing
+            firstName: 'Scotty',
+            email: 'scotty@2hotty.com',
+        };
+        const res = await request(app)
+            .post('/api/users')
+            .send(newUser)
+            .expect(400);
+        // todo - test needs to be finished & validation completed
+    });
 });
