@@ -1,6 +1,20 @@
 import { usersList } from './seed';
-// const {usersList} = require('./seed');
-// import { User } from '../../Schemas/Schemas';
+import mongoose from 'mongoose';
+import { dbURL } from '../connection';
+import { User, Event } from '../../Schemas/Schemas';
 
+mongoose.connect(dbURL);
 
-console.log(usersList, 'in seedData');
+User.collection.drop();
+Event.collection.drop();
+
+User.create(usersList)
+    .then((user: {}[]) => {
+        console.log(`${user.length} users seeded`);
+    })
+    .catch((err: any) => {
+        console.log(err);
+    })
+    .finally(() => {
+        mongoose.connection.close();
+    });
