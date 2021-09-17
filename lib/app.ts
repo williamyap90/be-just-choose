@@ -39,6 +39,7 @@ app.use('/api', apiRouter);
 //         });
 // });
 
+// // ToDo - Patch currently overwrites existing user, fields not provided will be deleted - fix.
 // app.patch('/api/users/:email', (req, res) => {
 //     User.findOne({ email: req.params.email })
 //         .then((user) => {
