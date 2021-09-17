@@ -3,16 +3,14 @@ const app = require('../app').default;
 const mongoose = require('mongoose');
 const JSONEndPointsFile = require('../endpoints.json');
 const db = require('../db/connection.ts');
-const { seedDb } = require ('../db/seeds/seedData');
+const { seedDb } = require('../db/seeds/seedData');
 
-// console.log(typeof seedDb, '<<<<<<')
 beforeAll((done) => {
     seedDb();
     done();
 });
 
 afterAll(() => {
-    // Closing the DB connection allows Jest to exit successfully.
     return mongoose.disconnect();
 });
 
@@ -31,7 +29,7 @@ describe('GET /api/users', () => {
     test('status 200 - returns a list of the users', async () => {
         const res = await request(app).get('/api/users').expect(200);
         expect(Array.isArray(res.body.users)).toBe(true);
-        res.body.users.forEach((user:any) => {
+        res.body.users.forEach((user: any) => {
             expect(user).toHaveProperty('avatarUrl');
             expect(user).toHaveProperty('_id');
             expect(user).toHaveProperty('firstName');
@@ -45,13 +43,16 @@ describe('GET /api/users', () => {
 
 describe('POST /api/users', () => {
     test('status 201 - returns with newly created user', async () => {
-        const newUser = 
-        {firstName: 'Dave',
+        const newUser = {
+            firstName: 'Dave',
             lastName: 'David',
             email: 'dave@David.com',
-            password: 'kjhfkjwhefkjwhefkj'
+            password: 'kjhfkjwhefkjwhefkj',
         };
-        const res = await request(app).post('/api/users').send(newUser).expect(201);
+        const res = await request(app)
+            .post('/api/users')
+            .send(newUser)
+            .expect(201);
         expect(res.body.user).toHaveProperty('avatarUrl');
         expect(res.body.user).toHaveProperty('_id');
         expect(res.body.user).toHaveProperty('firstName');
