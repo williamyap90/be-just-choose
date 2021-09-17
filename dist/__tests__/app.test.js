@@ -12,7 +12,6 @@ const request = require('supertest');
 const app = require('../app').default;
 const mongoose = require('mongoose');
 const JSONEndPointsFile = require('../endpoints.json');
-// const connection = require('../db/connection');
 const db = require('../db/connection.ts');
 beforeAll((done) => {
     done();
@@ -29,7 +28,7 @@ describe('GET /api', () => {
 });
 describe('GET /api/users', () => {
     test('status 200 - returns a a list of the users', () => __awaiter(void 0, void 0, void 0, function* () {
-        return request(app).get('/api/users').expect(200);
-        // expect(Array.isArray(res.body.users)).toBe(true);
+        const res = yield request(app).get('/api/users').expect(200);
+        expect(Array.isArray(res.body.users)).toBe(true);
     }));
 });

@@ -22,16 +22,15 @@ for (let i = 0; i < 20; i++) {
     const lastName = faker_1.default.name.lastName();
     const email = firstName.toLowerCase() + lastName.toLowerCase() + '@test-jc.com';
     const password = faker_1.default.internet.password();
+    const avatarUrl = '';
     const user = {
         firstName,
         lastName,
         email,
         password,
-        eventHistory: [],
     };
     exports.usersList.push(user);
 }
-console.log(exports.usersList, ' UL<<');
 // export default usersList;
 // User.insertMany(usersList).then(() => {
 //     console.log('users inserted!');

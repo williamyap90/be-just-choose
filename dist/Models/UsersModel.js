@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findUserByEmail = exports.findUsers = void 0;
 const Schemas_1 = require("../Schemas/Schemas");
-// import { db } from '../db/connection'
 const findUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     const response = yield Schemas_1.User.find({});
     return response;
