@@ -1,6 +1,4 @@
 import mongoose from 'mongoose';
-import {db} from '../db/connection';
-
 
 const UserSchema = new mongoose.Schema(
     {
