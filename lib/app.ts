@@ -4,6 +4,7 @@ import apiRouter from './Routers/ApiRouter';
 import { User, Event } from './Schemas/Schemas';
 import bodyParser from 'body-parser';
 const db = require('./db/connection');
+import { handleRouter404 } from './errors';
 
 const app = express();
 
@@ -21,23 +22,7 @@ app.use('/api', apiRouter);
 
 //// Refactor below code into MVC WITH testing
 //
-// app.post('/api/users', (req, res) => {
-//     const newUser = new User({
-//         firstName: req.body.firstName,
-//         lastName: req.body.lastName,
-//         email: req.body.email,
-//         eventHistory: [],
-//         password: req.body.password,
-//     });
-//     newUser
-//         .save()
-//         .then((user) => {
-//             res.status(201).send(user);
-//         })
-//         .catch((err) => {
-//             res.status(400).send(err);
-//         });
-// });
+// 
 
 // // ToDo - Patch currently overwrites existing user, fields not provided will be deleted - fix.
 // app.patch('/api/users/:email', (req, res) => {
@@ -72,7 +57,7 @@ app.use('/api', apiRouter);
 //         });
 // });
 
-app.all('/*', () => console.log('Invalid route'));
+app.use(handleRouter404);
 
 export default app;
 
