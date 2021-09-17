@@ -1,5 +1,5 @@
 import express from 'express';
-import { findUsers, findUserByEmail } from '../Models/UsersModel';
+import { findUsers, findUserByEmail, addNewUser } from '../Models/UsersModel';
 
 export const getUsers: express.RequestHandler = (req, res, next) => {
     findUsers()
@@ -26,6 +26,18 @@ export const getUserByEmail: express.RequestHandler = (req, res, next) => {
             res.status(200).send({ user });
         })
         .catch((err) => {
+            res.status(400).send(err);
+        });
+};
+
+export const postUser: express.RequestHandler = (req, res) => {
+    addNewUser(req.body)
+   
+        .then((user) => {
+            res.status(201).send({user});
+        })
+        .catch((err) => {
+            console.log(err);
             res.status(400).send(err);
         });
 };
