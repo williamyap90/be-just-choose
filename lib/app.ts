@@ -3,9 +3,7 @@ import cors from 'cors';
 import apiRouter from './Routers/ApiRouter';
 import { User, Event } from './Schemas/Schemas';
 import bodyParser from 'body-parser';
-import {db} from './db/connection';
-
-// console.log(db, '<<<<< DB')
+const db = require('./db/connection');
 
 const app = express();
 
@@ -17,12 +15,12 @@ app.get('/', (req, res) => {
     res.send('hello!!');
 });
 
-//////////////////////////////////////////////////////
-
 // Routers start below
 
 app.use('/api', apiRouter);
 
+//// Refactor below code into MVC WITH testing
+//
 // app.post('/api/users', (req, res) => {
 //     const newUser = new User({
 //         firstName: req.body.firstName,
@@ -41,37 +39,37 @@ app.use('/api', apiRouter);
 //         });
 // });
 
-app.patch('/api/users/:email', (req, res) => {
-    User.findOne({ email: req.params.email })
-        .then((user) => {
-            // const updateBody = req.body;
-            console.log(req.body, '<<req.body');
+// app.patch('/api/users/:email', (req, res) => {
+//     User.findOne({ email: req.params.email })
+//         .then((user) => {
+//             // const updateBody = req.body;
+//             console.log(req.body, '<<req.body');
 
-            user!.firstName = req.body.firstName;
-            user!.lastName = req.body.lastName;
-            user!.email = req.body.email;
-            user!.password = req.body.password;
-            user!.save().then((user) => {
-                res.status(204).send(user);
-            });
-        })
-        .catch((err) => {
-            res.status(400).send(err);
-        });
-});
+//             user!.firstName = req.body.firstName;
+//             user!.lastName = req.body.lastName;
+//             user!.email = req.body.email;
+//             user!.password = req.body.password;
+//             user!.save().then((user) => {
+//                 res.status(204).send(user);
+//             });
+//         })
+//         .catch((err) => {
+//             res.status(400).send(err);
+//         });
+// });
 
-app.delete('/api/users/:email', (req, res) => {
-    User.findOneAndRemove({ email: req.params.email })
-        .then((user) => {
-            if (!user) {
-                res.status(404).send();
-            }
-            res.status(204).send(user);
-        })
-        .catch((err) => {
-            res.status(400).send(err);
-        });
-});
+// app.delete('/api/users/:email', (req, res) => {
+//     User.findOneAndRemove({ email: req.params.email })
+//         .then((user) => {
+//             if (!user) {
+//                 res.status(404).send();
+//             }
+//             res.status(204).send(user);
+//         })
+//         .catch((err) => {
+//             res.status(400).send(err);
+//         });
+// });
 
 app.all('/*', () => console.log('Invalid route'));
 

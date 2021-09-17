@@ -8,7 +8,27 @@ const cors_1 = __importDefault(require("cors"));
 const ApiRouter_1 = __importDefault(require("./Routers/ApiRouter"));
 const Schemas_1 = require("./Schemas/Schemas");
 const body_parser_1 = __importDefault(require("body-parser"));
-// console.log(db, '<<<<< DB')
+// import { db } from './db/connection';
+const db = require('./db/connection');
+// import dotenv from 'dotenv';
+// import mongoose from 'mongoose';
+// console.log(db, 'db');
+// dotenv.config();
+// let dbURL: any;
+// if (!process.env.DATABASE_URL) {
+//     throw new Error('No database set');
+// } else {
+//     dbURL = process.env.DATABASE_URL;
+// }
+// export let db: any = mongoose
+//     .connect(dbURL)
+//     .then((dbConnection) => {
+//         db = dbConnection;
+//         console.log('Database connection success!');
+//     })
+//     .catch((err) => {
+//         console.log(err);
+//     });
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(body_parser_1.default.json());
