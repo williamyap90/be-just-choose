@@ -1,22 +1,10 @@
-const faker = require('faker');
-// const db = require('../../app');
-// const User = require('../../Schemas/Schemas');
-// import User  from '../../Schemas/Schemas';
+import faker from 'faker';
 
-// interface User {
-//     firstName: string;
-//     lastName: string;
-//     email: string;
-//     password: string;
-//     eventHistory: []
-// }
-
-const usersList: {
+export const usersList: {
     firstName: string;
     lastName: string;
     email: string;
     password: string;
-    eventHistory: string[];
 }[] = [];
 
 for (let i = 0; i < 20; i++) {
@@ -31,17 +19,6 @@ for (let i = 0; i < 20; i++) {
         lastName,
         email,
         password,
-        eventHistory: [],
     };
     usersList.push(user);
 }
-
-console.log(usersList, ' UL<<');
-module.exports = { usersList };
-// export default usersList;
-// User.insertMany(usersList).then(() => {
-//     console.log('users inserted!');
-// });
-// .catch((err) => {
-//     console.log(err);
-// });

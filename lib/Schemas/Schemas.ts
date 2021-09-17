@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
 
-const Schema = mongoose.Schema;
-
 const UserSchema = new mongoose.Schema(
     {
         firstName: String,
@@ -12,6 +10,10 @@ const UserSchema = new mongoose.Schema(
         },
         eventHistory: [{ eventId: String }],
         password: String,
+        avatarUrl: {
+            type: String,
+            default: 'https://climatefutures.net/cccd/images/sampleImage.png',
+        },
     },
     { collection: 'users', versionKey: false }
 );
@@ -55,3 +57,17 @@ export interface UserDoc extends Document {
 
 export const User = mongoose.model<UserDoc>('User', UserSchema);
 export const Event = mongoose.model('Event', EventSchema);
+
+// Object from front end - single restaurant
+// {
+//     name:'fuel',
+//     categories:['string','string'],
+//     coordinates: {longitude:51,latitude:55},
+//     image_url: 'http://www.google.com',
+//     display_address:[address1, address2, postcode],
+//     phone_no: 05125414,
+//     rating: 5,
+//     price: '£',
+//     review_count: 51,
+//     url: 'google'
+// }
