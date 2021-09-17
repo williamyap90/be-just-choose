@@ -1,10 +1,6 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
-
-
-
-
 dotenv.config();
 let dbURL: any;
 if (!process.env.DATABASE_URL) {
@@ -13,8 +9,7 @@ if (!process.env.DATABASE_URL) {
     dbURL = process.env.DATABASE_URL;
 }
 
-export let db: any =
-mongoose
+export let db: any = mongoose
     .connect(dbURL)
     .then((dbConnection) => {
         db = dbConnection;
