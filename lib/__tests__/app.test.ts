@@ -113,6 +113,6 @@ describe('USERS', () => {
 });
 describe('EVENTS', () => {
     describe('GET /api/events', () => {
-        test('status 200', async () => {});
+        // test('status 200', async () => {});
     });
 });
