@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import apiRouter from './Routers/ApiRouter';
-import { User, Event } from './Schemas/Schemas';
 import bodyParser from 'body-parser';
 const db = require('./db/connection');
 import { handleRouter404 } from './errors';
@@ -22,7 +21,7 @@ app.use('/api', apiRouter);
 
 //// Refactor below code into MVC WITH testing
 //
-// 
+//
 
 // // ToDo - Patch currently overwrites existing user, fields not provided will be deleted - fix.
 // app.patch('/api/users/:email', (req, res) => {
