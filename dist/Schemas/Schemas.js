@@ -6,14 +6,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Event = exports.User = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const UserSchema = new mongoose_1.default.Schema({
-    firstName: String,
-    lastName: String,
+    firstName: {
+        type: String,
+        required: true,
+    },
+    lastName: {
+        type: String,
+        required: true,
+    },
     email: {
         type: String,
         unique: true,
+        required: true,
     },
     eventHistory: [{ eventId: String }],
-    password: String,
+    password: {
+        type: String,
+        required: true,
+    },
     avatarUrl: {
         type: String,
         default: 'https://climatefutures.net/cccd/images/sampleImage.png',
@@ -53,7 +63,7 @@ exports.Event = mongoose_1.default.model('Event', EventSchema);
 //     categories:['string','string'],
 //     coordinates: {longitude:51,latitude:55},
 //     image_url: 'http://www.google.com',
-//     display_address:[address],
+//     display_address:[address1, address2, postcode],
 //     phone_no: 05125414,
 //     rating: 5,
 //     price: '£',

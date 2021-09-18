@@ -9,15 +9,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findUserByEmail = exports.findUsers = void 0;
+exports.addNewUser = exports.findUserByEmail = exports.findUsers = void 0;
 const Schemas_1 = require("../Schemas/Schemas");
 const findUsers = () => __awaiter(void 0, void 0, void 0, function* () {
-    const response = yield Schemas_1.User.find({});
-    return response;
+    const res = yield Schemas_1.User.find({});
+    return res;
 });
 exports.findUsers = findUsers;
 const findUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
-    const response = yield Schemas_1.User.findOne({ email: email });
-    return response;
+    const res = yield Schemas_1.User.findOne({ email: email });
+    return res;
 });
 exports.findUserByEmail = findUserByEmail;
+const addNewUser = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    const newUser = {
+        firstName: req.firstName,
+        lastName: req.lastName,
+        email: req.email,
+        password: req.password,
+    };
+    const res = yield new Schemas_1.User(newUser).save();
+    return res;
+});
+exports.addNewUser = addNewUser;

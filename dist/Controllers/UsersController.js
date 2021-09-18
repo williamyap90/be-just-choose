@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserByEmail = exports.getUsers = void 0;
+exports.postUser = exports.getUserByEmail = exports.getUsers = void 0;
 const UsersModel_1 = require("../Models/UsersModel");
 const getUsers = (req, res, next) => {
     (0, UsersModel_1.findUsers)()
@@ -11,13 +11,11 @@ const getUsers = (req, res, next) => {
         res.status(200).send({ users });
     })
         .catch((err) => {
-        console.log(err);
         res.status(400).send(err);
     });
 };
 exports.getUsers = getUsers;
 const getUserByEmail = (req, res, next) => {
-    //TODO: protect from injection for params?
     const { email } = req.params;
     (0, UsersModel_1.findUserByEmail)(email)
         .then((user) => {
@@ -31,3 +29,14 @@ const getUserByEmail = (req, res, next) => {
     });
 };
 exports.getUserByEmail = getUserByEmail;
+const postUser = (req, res) => {
+    (0, UsersModel_1.addNewUser)(req.body)
+        .then((user) => {
+        res.status(201).send({ user });
+    })
+        .catch((err) => {
+        console.log(err, '<< error');
+        res.status(400).send(err);
+    });
+};
+exports.postUser = postUser;

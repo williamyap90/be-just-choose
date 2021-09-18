@@ -8,6 +8,7 @@ const cors_1 = __importDefault(require("cors"));
 const ApiRouter_1 = __importDefault(require("./Routers/ApiRouter"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const db = require('./db/connection');
+const errors_1 = require("./errors");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(body_parser_1.default.json());
@@ -19,23 +20,7 @@ app.get('/', (req, res) => {
 app.use('/api', ApiRouter_1.default);
 //// Refactor below code into MVC WITH testing
 //
-// app.post('/api/users', (req, res) => {
-//     const newUser = new User({
-//         firstName: req.body.firstName,
-//         lastName: req.body.lastName,
-//         email: req.body.email,
-//         eventHistory: [],
-//         password: req.body.password,
-//     });
-//     newUser
-//         .save()
-//         .then((user) => {
-//             res.status(201).send(user);
-//         })
-//         .catch((err) => {
-//             res.status(400).send(err);
-//         });
-// });
+// 
 // // ToDo - Patch currently overwrites existing user, fields not provided will be deleted - fix.
 // app.patch('/api/users/:email', (req, res) => {
 //     User.findOne({ email: req.params.email })
@@ -66,7 +51,7 @@ app.use('/api', ApiRouter_1.default);
 //             res.status(400).send(err);
 //         });
 // });
-app.all('/*', () => console.log('Invalid route'));
+app.use(errors_1.handleRouter404);
 exports.default = app;
 //////////////////////////////////////////////////////////////////////////
 //params,body, queries
