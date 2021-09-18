@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 app.use('/api', ApiRouter_1.default);
 //// Refactor below code into MVC WITH testing
 //
-// 
+//
 // // ToDo - Patch currently overwrites existing user, fields not provided will be deleted - fix.
 // app.patch('/api/users/:email', (req, res) => {
 //     User.findOne({ email: req.params.email })
