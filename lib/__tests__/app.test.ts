@@ -4,10 +4,11 @@ const mongoose = require('mongoose');
 const JSONEndPointsFile = require('../endpoints.json');
 const db = require('../db/connection.ts');
 const { seedDb } = require('../db/seeds/seedData');
+const { dbURL } = require('../db/connection');
 
-beforeAll((done) => {
+beforeAll(() => {
+    mongoose.connect(dbURL);
     seedDb();
-    done();
 });
 
 afterAll(() => {
