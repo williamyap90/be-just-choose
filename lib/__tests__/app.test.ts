@@ -10,7 +10,6 @@ beforeAll(() => {
     mongoose.connect(dbURL);
     seedDb();
 });
-
 afterAll(() => {
     return mongoose.disconnect();
 });
