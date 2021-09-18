@@ -3,7 +3,7 @@ const app = require('../app').default;
 const mongoose = require('mongoose');
 const JSONEndPointsFile = require('../endpoints.json');
 const db = require('../db/connection.ts');
-const { seedDb } = require('../db/seeds/seedData');
+const { seedDb } = require('../db/seeds/seedDb');
 const { dbURL } = require('../db/connection');
 
 beforeAll(() => {
@@ -113,6 +113,9 @@ describe('USERS', () => {
 });
 describe('EVENTS', () => {
     describe('GET /api/events', () => {
-        // test('status 200', async () => {});
+        test('status 200 - returns a list of the events', async () => {
+            const res = await request(app).get('/api/events').expect(200);
+            expect(Array.isArray(res.body.events)).toBe(true);
+        });
     });
 });
