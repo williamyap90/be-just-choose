@@ -2,24 +2,15 @@ import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema(
     {
-        firstName: {
-            type: String,
-            required: true,
-        },
-        lastName: {
-            type: String,
-            required: true,
-        },
+        firstName: { type: String, required: true },
+        lastName: { type: String, required: true },
         email: {
             type: String,
             unique: true,
             required: true,
         },
         eventHistory: [{ eventId: String }],
-        password: {
-            type: String,
-            required: true,
-        },
+        password: { type: String, required: true },
         avatarUrl: {
             type: String,
             default: 'https://climatefutures.net/cccd/images/sampleImage.png',
@@ -69,32 +60,29 @@ const UserSchema = new mongoose.Schema(
 // Temporary EventSchema
 const EventSchema = new mongoose.Schema(
     {
-        eventName: {
-            type: String,
-            required: true,
-        },
-        eventURL: String,
-        dateCreated: {
-            type: Date,
-            default: Date.now,
-        },
+        eventName: { type: String, required: true },
+        eventURL: { type: String, default: '' },
+        dateCreated: { type: Date, default: Date.now },
         organiser: String,
-        isDraft: Boolean,
+        isDraft: { type: Boolean, default: false },
         endDate: Date,
         winningRestaurant: {
-            restaurantName: String,
-            categories: [String],
-            displayAddress: [String],
-            coordinates: { latitude: Number, longitude: Number },
-            phoneNo: String,
-            rating: Number,
-            price: String,
-            reviewCount: Number,
-            imageUrl: String,
-            url: String,
+            type: {
+                restaurantName: String,
+                categories: [String],
+                displayAddress: [String],
+                coordinates: { latitude: Number, longitude: Number },
+                phoneNo: String,
+                rating: Number,
+                price: String,
+                reviewCount: Number,
+                imageUrl: String,
+                url: String,
+            },
+            default: {},
         },
-        voters: [String],
-        restaurantList: [{ restaurantName: String }],
+        voters: { type: [String], default: [] },
+        restaurantList: { type: [{ restaurantName: String }], default: [] },
     },
     { collection: 'events', versionKey: false }
 );
