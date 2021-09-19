@@ -118,12 +118,48 @@ describe('USERS', () => {
 });
 describe('EVENTS', () => {
     describe('GET /api/events', () => {
-        xtest('status 200 - returns a list of the events', () => __awaiter(void 0, void 0, void 0, function* () {
+        test('status 200 - returns a list of the events', () => __awaiter(void 0, void 0, void 0, function* () {
             const res = yield request(app).get('/api/events').expect(200);
             expect(Array.isArray(res.body.events)).toBe(true);
+            res.body.events.forEach((event) => {
+                expect(typeof event).toBe('object');
+                expect(event).toHaveProperty('_id');
+                expect(event).toHaveProperty('winningRestaurant');
+                expect(event).toHaveProperty('eventName');
+                expect(event).toHaveProperty('eventURL');
+                expect(event).toHaveProperty('dateCreated');
+                expect(event).toHaveProperty('organiser');
+                expect(event).toHaveProperty('isDraft');
+                expect(event).toHaveProperty('endDate');
+                expect(event).toHaveProperty('voters');
+                expect(event).toHaveProperty('restaurantList');
+            });
         }));
     });
-    // GET, POST, PATCH (partial update keeping msising fields)
+    describe('POST /api/events', () => {
+        test('201 - responds with the newly created event', () => __awaiter(void 0, void 0, void 0, function* () {
+            const newEvent = {
+                eventName: 'Monday Madness',
+                organiser: '',
+                endDate: '',
+            };
+            const res = yield request(app)
+                .post('/api/events')
+                .send(newEvent)
+                .expect(201);
+            expect(res.body.event).toHaveProperty('_id');
+            expect(res.body.event).toHaveProperty('winningRestaurant');
+            expect(res.body.event).toHaveProperty('eventName');
+            expect(res.body.event).toHaveProperty('eventURL');
+            expect(res.body.event).toHaveProperty('dateCreated');
+            expect(res.body.event).toHaveProperty('organiser');
+            expect(res.body.event).toHaveProperty('isDraft');
+            expect(res.body.event).toHaveProperty('endDate');
+            expect(res.body.event).toHaveProperty('voters');
+            expect(res.body.event).toHaveProperty('restaurantList');
+        }));
+    });
+    //PATCH (partial update keeping msising fields)
 });
 describe('RESTAURANTS', () => {
     describe('GET /api/restaurants', () => {
