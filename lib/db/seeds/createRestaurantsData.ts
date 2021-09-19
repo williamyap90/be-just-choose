@@ -222,13 +222,13 @@ const restaurants = [
 const restaurantList: {
     restaurantName: string;
     categories: string[];
-    display_address: string[];
+    displayAddress: string[];
     coordinates: { latitude: number; longitude: number };
-    phone_no: string;
+    phoneNo: string;
     rating: number;
     price: string;
-    review_count: number;
-    image_url: string;
+    reviewCount: number;
+    imageUrl: string;
     url: string;
 }[] = [];
 
@@ -236,13 +236,13 @@ restaurants.forEach((restaurant) => {
     const newRestaurant = {
         restaurantName: restaurant.name,
         categories: restaurant.categories.map((c) => c.title),
-        display_address: restaurant.location.display_address,
+        displayAddress: restaurant.location.display_address,
         coordinates: restaurant.coordinates,
-        phone_no: restaurant.display_phone,
+        phoneNo: restaurant.display_phone,
         rating: restaurant.rating,
         price: restaurant.price,
-        review_count: restaurant.review_count,
-        image_url: restaurant.image_url,
+        reviewCount: restaurant.review_count,
+        imageUrl: restaurant.image_url,
         url: restaurant.url,
     };
     restaurantList.push(newRestaurant);
