@@ -34,11 +34,10 @@ apiRouter.get('/restaurants', (req, res) => {
         },
     })
         .then((response) => {
-        console.log(response.data);
         res.status(200).send({ restaurants: response.data });
     })
         .catch((e) => {
-        console.log(e, 'catch here<<');
+        console.log(e);
     });
 });
 exports.default = apiRouter;
