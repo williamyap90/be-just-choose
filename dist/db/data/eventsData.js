@@ -33,9 +33,14 @@ exports.eventsData = [
             'dorthydietrich@test-jc.com',
         ],
         restaurantList: [
-        // Array of restaurant objects with all of restaurants information?
-        // or restaurant name?
-        // or create restaurant documents when shortlisted & store Object.ids?
+            // Array of restaurant objects with all of restaurants information?
+            // or restaurant name?
+            // or create restaurant documents when shortlisted & store Object.ids?
+            { restaurantName: 'Trove Cafe + Bakery' },
+            { restaurantName: 'The Magnet Freehouse' },
+            { restaurantName: 'Pokusevskis Delicatessen and Cafe' },
+            { restaurantName: 'Nook' },
+            { restaurantName: 'Juno Cafe' },
         ],
     },
 ];
