@@ -112,7 +112,7 @@ describe('USERS', () => {
 });
 describe('EVENTS', () => {
     describe('GET /api/events', () => {
-        xtest('status 200 - returns a list of the events', async () => {
+        test('status 200 - returns a list of the events', async () => {
             const res = await request(app).get('/api/events').expect(200);
             expect(Array.isArray(res.body.events)).toBe(true);
         });
