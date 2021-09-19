@@ -118,7 +118,7 @@ describe('USERS', () => {
 });
 describe('EVENTS', () => {
     describe('GET /api/events', () => {
-        test('status 200 - returns a list of the events', () => __awaiter(void 0, void 0, void 0, function* () {
+        xtest('status 200 - returns a list of the events', () => __awaiter(void 0, void 0, void 0, function* () {
             const res = yield request(app).get('/api/events').expect(200);
             expect(Array.isArray(res.body.events)).toBe(true);
         }));
