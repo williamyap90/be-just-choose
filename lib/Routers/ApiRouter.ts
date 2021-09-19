@@ -18,10 +18,6 @@ apiRouter.get('/restaurants', (req, res) => {
         baseURL: 'https://api.yelp.com/v3/businesses/search',
     });
     const API_KEY = process.env.REACT_APP_API_KEY;
-    console.log(process.env, 'process.env>>');
-
-    console.log(API_KEY, 'api key <<');
-
     const response = reviewsAPI
         .get('', {
             params: {
@@ -37,7 +33,6 @@ apiRouter.get('/restaurants', (req, res) => {
             },
         })
         .then((response) => {
-            console.log(response.data);
             res.status(200).send({ restaurants: response.data });
         })
         .catch((e) => {
