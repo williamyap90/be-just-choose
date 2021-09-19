@@ -10,15 +10,14 @@ export const findUserByEmail = async (email: string) => {
     return res;
 };
 
-export const addNewUser = async (req:any) => {
+export const addNewUser = async (req: any) => {
     const newUser = {
         firstName: req.firstName,
         lastName: req.lastName,
         email: req.email,
         password: req.password,
     };
-    
+
     const res = await new User(newUser).save();
-    console.log(res);
     return res;
 };

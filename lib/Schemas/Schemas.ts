@@ -2,14 +2,24 @@ import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema(
     {
-        firstName: String,
-        lastName: String,
+        firstName: {
+            type: String,
+            required: true,
+        },
+        lastName: {
+            type: String,
+            required: true,
+        },
         email: {
             type: String,
             unique: true,
+            required: true,
         },
         eventHistory: [{ eventId: String }],
-        password: String,
+        password: {
+            type: String,
+            required: true,
+        },
         avatarUrl: {
             type: String,
             default: 'https://climatefutures.net/cccd/images/sampleImage.png',
@@ -18,6 +28,45 @@ const UserSchema = new mongoose.Schema(
     { collection: 'users', versionKey: false }
 );
 
+// // Original EventSchema
+// const EventSchema = new mongoose.Schema(
+//     {
+//         eventName: {
+//             type: String,
+//             required: true,
+//         },
+//         eventURL: String,
+//         dateCreated: {
+//             type: Date,
+//             default: Date.now,
+//         },
+//         organiser: {
+//             type: mongoose.Schema.Types.ObjectId,
+//             ref: 'User',
+//         },
+//         isDraft: Boolean,
+//         endDate: Date,
+//         winningRestaurant: {
+//             restaurantName: String,
+//             categories: String,
+//             displayAddress: String,
+//             coordinates: { latitude: Number, longitude: Number },
+//             phoneNo: String,
+//             rating: Number,
+//             price: String,
+//             reviewCount: Number,
+//             imageUrl: String,
+//             url: String,
+//         },
+//         voters: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+//         restaurantList: [
+//             { restaurantName: String, cuisine: String, priceRange: String },
+//         ],
+//     },
+//     { collection: 'events', versionKey: false }
+// );
+
+// Temporary EventSchema
 const EventSchema = new mongoose.Schema(
     {
         eventName: {
@@ -29,24 +78,28 @@ const EventSchema = new mongoose.Schema(
             type: Date,
             default: Date.now,
         },
-        organiser: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-        },
-        restaurantList: [
-            { restaurantName: String, cuisine: String, priceRange: String },
-        ],
+        organiser: String,
         isDraft: Boolean,
-        voters: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+        endDate: Date,
         winningRestaurant: {
             restaurantName: String,
-            cuisine: String,
-            priceRange: String,
+            categories: [String],
+            displayAddress: [String],
+            coordinates: { latitude: Number, longitude: Number },
+            phoneNo: String,
+            rating: Number,
+            price: String,
+            reviewCount: Number,
+            imageUrl: String,
+            url: String,
         },
-        endDate: Date,
+        voters: [String],
+        restaurantList: [{ restaurantName: String }],
     },
     { collection: 'events', versionKey: false }
 );
+
+//upvotes downvotes both default to 0 everytime you add restaurant
 
 export interface UserDoc extends Document {
     firstName: string;

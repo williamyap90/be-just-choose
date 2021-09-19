@@ -10,13 +10,11 @@ export const getUsers: express.RequestHandler = (req, res, next) => {
             res.status(200).send({ users });
         })
         .catch((err) => {
-            console.log(err);
             res.status(400).send(err);
         });
 };
 
 export const getUserByEmail: express.RequestHandler = (req, res, next) => {
-    //TODO: protect from injection for params?
     const { email } = req.params;
     findUserByEmail(email)
         .then((user) => {
@@ -32,12 +30,10 @@ export const getUserByEmail: express.RequestHandler = (req, res, next) => {
 
 export const postUser: express.RequestHandler = (req, res) => {
     addNewUser(req.body)
-   
         .then((user) => {
-            res.status(201).send({user});
+            res.status(201).send({ user });
         })
         .catch((err) => {
-            console.log(err);
             res.status(400).send(err);
         });
 };
