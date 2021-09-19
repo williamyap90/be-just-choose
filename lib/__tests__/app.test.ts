@@ -94,7 +94,7 @@ describe('USERS', () => {
             expect(res.body.user.email).toBe('tom@tomtom.com');
             expect(res.body.user.password).toBe('tommytomtom');
         });
-        test('400 responds with an error required fields are missing', async () => {
+        test('400: responds with an error required fields are missing', async () => {
             const newUser = {
                 // lastName & password required fields missing
                 firstName: 'Scotty',

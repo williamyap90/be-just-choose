@@ -24,7 +24,7 @@ afterAll(() => {
 });
 describe('API', () => {
     describe('GET /api', () => {
-        test('status 200 - returns a JSON describing all available endpoints', () => __awaiter(void 0, void 0, void 0, function* () {
+        test('200: returns a JSON describing all available endpoints', () => __awaiter(void 0, void 0, void 0, function* () {
             const res = yield request(app).get('/api').expect(200);
             expect(res.body).toEqual(JSONEndPointsFile);
             expect(typeof res.body).toBe('object');
@@ -37,7 +37,7 @@ describe('API', () => {
 });
 describe('USERS', () => {
     describe('GET /api/users', () => {
-        test('status 200 - returns a list of the users', () => __awaiter(void 0, void 0, void 0, function* () {
+        test('200: returns a list of the users', () => __awaiter(void 0, void 0, void 0, function* () {
             const res = yield request(app).get('/api/users').expect(200);
             expect(Array.isArray(res.body.users)).toBe(true);
             res.body.users.forEach((user) => {
@@ -52,7 +52,7 @@ describe('USERS', () => {
         }));
     });
     describe('POST /api/users', () => {
-        test('status 201 - returns with newly created user', () => __awaiter(void 0, void 0, void 0, function* () {
+        test('201: returns with newly created user', () => __awaiter(void 0, void 0, void 0, function* () {
             const newUser = {
                 firstName: 'Dave',
                 lastName: 'David',
@@ -75,7 +75,7 @@ describe('USERS', () => {
             expect(res.body.user.email).toBe('dave@David.com');
             expect(res.body.user.password).toBe('kjhfkjwhefkjwhefkj');
         }));
-        test('status 201 - responds with the newly created category and ignores unnecessary properties', () => __awaiter(void 0, void 0, void 0, function* () {
+        test('201: responds with the newly created user and ignores unnecessary properties', () => __awaiter(void 0, void 0, void 0, function* () {
             const newUser = {
                 firstName: 'Tom',
                 lastName: 'Thomas',
@@ -102,7 +102,7 @@ describe('USERS', () => {
             expect(res.body.user.email).toBe('tom@tomtom.com');
             expect(res.body.user.password).toBe('tommytomtom');
         }));
-        test('status 400 responds with an error required fields are missing', () => __awaiter(void 0, void 0, void 0, function* () {
+        test('400: responds with an error required fields are missing', () => __awaiter(void 0, void 0, void 0, function* () {
             const newUser = {
                 // lastName & password required fields missing
                 firstName: 'Scotty',
@@ -118,7 +118,7 @@ describe('USERS', () => {
 });
 describe('EVENTS', () => {
     describe('GET /api/events', () => {
-        test('status 200 - returns a list of the events', () => __awaiter(void 0, void 0, void 0, function* () {
+        test('200: returns a list of the events', () => __awaiter(void 0, void 0, void 0, function* () {
             const res = yield request(app).get('/api/events').expect(200);
             expect(Array.isArray(res.body.events)).toBe(true);
             res.body.events.forEach((event) => {
@@ -137,11 +137,11 @@ describe('EVENTS', () => {
         }));
     });
     describe('POST /api/events', () => {
-        test('201 - responds with the newly created event', () => __awaiter(void 0, void 0, void 0, function* () {
+        test('201: responds with the newly created event', () => __awaiter(void 0, void 0, void 0, function* () {
             const newEvent = {
                 eventName: 'Monday Madness',
-                organiser: '',
-                endDate: '',
+                organiser: 'will@will.com',
+                endDate: '2021-09-28T19:08:04.963Z',
             };
             const res = yield request(app)
                 .post('/api/events')
@@ -158,12 +158,37 @@ describe('EVENTS', () => {
             expect(res.body.event).toHaveProperty('voters');
             expect(res.body.event).toHaveProperty('restaurantList');
         }));
+        test('201: responds with the newly created event and ignores unnecessary properties', () => __awaiter(void 0, void 0, void 0, function* () {
+            const newEvent = {
+                eventName: 'Thirsty Tuesday',
+                organiser: 'ammar@ammar.am',
+                endDate: '2021-10-01T11:00:04.963Z',
+                theme: 'Halloween',
+                maxPeople: 150,
+            };
+            const res = yield request(app)
+                .post('/api/events')
+                .send(newEvent)
+                .expect(201);
+            expect(res.body.event).toHaveProperty('_id');
+            expect(res.body.event).toHaveProperty('winningRestaurant');
+            expect(res.body.event).toHaveProperty('eventName');
+            expect(res.body.event).toHaveProperty('eventURL');
+            expect(res.body.event).toHaveProperty('dateCreated');
+            expect(res.body.event).toHaveProperty('organiser');
+            expect(res.body.event).toHaveProperty('isDraft');
+            expect(res.body.event).toHaveProperty('endDate');
+            expect(res.body.event).toHaveProperty('voters');
+            expect(res.body.event).toHaveProperty('restaurantList');
+            expect(res.body.event).not.toHaveProperty('theme');
+            expect(res.body.event).not.toHaveProperty('maxPeople');
+        }));
     });
     //PATCH (partial update keeping msising fields)
 });
 describe('RESTAURANTS', () => {
     describe('GET /api/restaurants', () => {
-        test('status 200 - returns a list of restuarants', () => __awaiter(void 0, void 0, void 0, function* () {
+        test('200: returns a list of restaurants', () => __awaiter(void 0, void 0, void 0, function* () {
             const response = yield request(app)
                 .get('/api/restaurants?location=Manchester&radius=5000&limit=10&sort_by=distance&price=1,2&offset=0')
                 .expect(200);
