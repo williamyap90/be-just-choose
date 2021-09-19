@@ -9,15 +9,13 @@ const eventsData_1 = require("../data/eventsData");
 const Schemas_1 = require("../../Schemas/Schemas");
 const mongoose_1 = __importDefault(require("mongoose"));
 const connection_1 = require("../connection");
-// Seeding database for testing (no connection)
 const seedDb = () => {
     const connect = mongoose_1.default.createConnection(connection_1.dbURL);
     connect.on('open', () => {
         connect.db
-            // .listCollections() //searching for all collections
             .listCollections({ name: 'users' }) //searching for user collection
             .toArray((err, collection) => {
-            console.log(collection, 'CL'); //log search result
+            // console.log(collection, 'CL'); //log search result
             if (err) {
                 console.log(err);
                 return;
@@ -55,22 +53,5 @@ const seedDb = () => {
             });
         });
     });
-    //BELOW CODE IS FINE - check for collections before dropping
-    // User.collection.drop();
-    // Event.collection.drop();
-    // User.insertMany(usersData)
-    //     .then((user) => {
-    //         // console.log(`${user.length} users seeded`);
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     });
-    // Event.insertMany(eventsData)
-    //     .then((events) => {
-    //         console.log(`${events.length} events seeded`);
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     });
 };
 exports.seedDb = seedDb;
