@@ -21,12 +21,12 @@ const findUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* (
     return res;
 });
 exports.findUserByEmail = findUserByEmail;
-const addNewUser = (req) => __awaiter(void 0, void 0, void 0, function* () {
+const addNewUser = ({ firstName, lastName, email, password, }) => __awaiter(void 0, void 0, void 0, function* () {
     const newUser = {
-        firstName: req.firstName,
-        lastName: req.lastName,
-        email: req.email,
-        password: req.password,
+        firstName,
+        lastName,
+        email,
+        password,
     };
     const res = yield new Schemas_1.User(newUser).save();
     return res;
