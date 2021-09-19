@@ -48,8 +48,15 @@ const UserSchema = new mongoose.Schema(
 //         endDate: Date,
 //         winningRestaurant: {
 //             restaurantName: String,
-//             cuisine: String,
-//             priceRange: String,
+//             categories: String,
+//             displayAddress: String,
+//             coordinates: { latitude: Number, longitude: Number },
+//             phoneNo: String,
+//             rating: Number,
+//             price: String,
+//             reviewCount: Number,
+//             imageUrl: String,
+//             url: String,
 //         },
 //         voters: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 //         restaurantList: [
@@ -58,6 +65,7 @@ const UserSchema = new mongoose.Schema(
 //     },
 //     { collection: 'events', versionKey: false }
 // );
+
 // Temporary EventSchema
 const EventSchema = new mongoose.Schema(
     {
@@ -75,8 +83,8 @@ const EventSchema = new mongoose.Schema(
         endDate: Date,
         winningRestaurant: {
             restaurantName: String,
-            categories: String,
-            displayAddress: String,
+            categories: [String],
+            displayAddress: [String],
             coordinates: { latitude: Number, longitude: Number },
             phoneNo: String,
             rating: Number,
@@ -85,10 +93,8 @@ const EventSchema = new mongoose.Schema(
             imageUrl: String,
             url: String,
         },
-        voters: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-        restaurantList: [
-            { restaurantName: String, cuisine: String, priceRange: String },
-        ],
+        voters: [String],
+        restaurantList: [{ restaurantName: String }],
     },
     { collection: 'events', versionKey: false }
 );
