@@ -14,8 +14,8 @@ const seedDb = () => {
     const connect = mongoose_1.default.createConnection(connection_1.dbURL);
     connect.on('open', () => {
         connect.db
-            .listCollections() //searching for all collections
-            // .listCollections({ name: 'users' }) //searching for user collection
+            // .listCollections() //searching for all collections
+            .listCollections({ name: 'users' }) //searching for user collection
             .toArray((err, collection) => {
             console.log(collection, 'CL'); //log search result
             if (err) {
@@ -48,7 +48,7 @@ const seedDb = () => {
             }
             Schemas_1.Event.insertMany(eventsData_1.eventsData)
                 .then((events) => {
-                console.log(`${events.length} events seeded`);
+                // console.log(`${events.length} events seeded`);
             })
                 .catch((err) => {
                 console.log(err);

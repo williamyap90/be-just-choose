@@ -118,3 +118,14 @@ describe('EVENTS', () => {
         });
     });
 });
+describe('GET /api/restaurants', () => {
+    test('status 200 - returns a list of restuarants', async () => {
+        const response = await request(app)
+            .get(
+                '/api/restaurants?location=Manchester&radius=5000&limit=10&sort_by=distance&price=1,2&offset=0'
+            )
+            .expect(200);
+        expect(response.body.restaurants).toEqual({});
+        console.log(response.body, 'restaurant');
+    });
+});

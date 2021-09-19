@@ -99,6 +99,8 @@ const EventSchema = new mongoose.Schema(
     { collection: 'events', versionKey: false }
 );
 
+//upvotes downvotes both default to 0 everytime you add restaurant
+
 export interface UserDoc extends Document {
     firstName: string;
     lastName: string;
