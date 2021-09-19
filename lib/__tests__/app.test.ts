@@ -117,15 +117,17 @@ describe('EVENTS', () => {
             expect(Array.isArray(res.body.events)).toBe(true);
         });
     });
+    // GET, POST, PATCH (partial update keeping msising fields)
 });
-describe('GET /api/restaurants', () => {
-    test('status 200 - returns a list of restuarants', async () => {
-        const response = await request(app)
-            .get(
-                '/api/restaurants?location=Manchester&radius=5000&limit=10&sort_by=distance&price=1,2&offset=0'
-            )
-            .expect(200);
-        expect(response.body.restaurants).toEqual({});
-        console.log(response.body, 'restaurant');
+describe('RESTAURANTS', () => {
+    describe('GET /api/restaurants', () => {
+        test('status 200 - returns a list of restuarants', async () => {
+            const response = await request(app)
+                .get(
+                    '/api/restaurants?location=Manchester&radius=5000&limit=10&sort_by=distance&price=1,2&offset=0'
+                )
+                .expect(200);
+            expect(typeof response.body).toBe('object');
+        });
     });
 });
