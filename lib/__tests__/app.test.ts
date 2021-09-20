@@ -5,6 +5,7 @@ const JSONEndPointsFile = require('../endpoints.json');
 const db = require('../db/connection.ts');
 const { seedDb } = require('../db/seeds/seedDb');
 const { dbURL } = require('../db/connection');
+const { User } = require('../Schemas/Schemas');
 
 beforeAll(() => {
     mongoose.connect(dbURL);
@@ -109,9 +110,11 @@ describe('USERS', () => {
             );
         });
     });
-    describe('GET: /api/users/:email', ()=>{
-        test('200: returns the user details ', async() => {
-            const res = await request(app).get('/api/users/rosaleekunde@test-jc.com');
+    describe('GET: /api/users/:email', () => {
+        test('200: returns the user details ', async () => {
+            const res = await request(app).get(
+                '/api/users/rosaleekunde@test-jc.com'
+            );
             expect(res.body.user).toHaveProperty('avatarUrl');
             expect(res.body.user).toHaveProperty('_id');
             expect(res.body.user).toHaveProperty('firstName');
@@ -124,23 +127,34 @@ describe('USERS', () => {
             expect(res.body.user.email).toBe('rosaleekunde@test-jc.com');
             expect(res.body.user.password).toBe('KF1J5ertKzske3e');
         });
-        
     });
-    describe('PATCH /api/users/:email', ()=>{
-        test('200: returns the user with updated field ', async()=>{
+    describe('PATCH /api/users/:email', () => {
+        test('200: returns the user with updated field ', async () => {
             const updateBody = {
-                firstName: 'Doug'
+                firstName: 'Doug',
             };
-            const res = await request(app).patch('/api/users/rosaleekunde@test-jc.com')
-                .send(updateBody).expect(200);
-            expect(res.body.user).toHaveProperty('avatarUrl');
-            expect(res.body.user).toHaveProperty('_id');
-            expect(res.body.user).toHaveProperty('firstName');
-            expect(res.body.user).toHaveProperty('lastName');
-            expect(res.body.user).toHaveProperty('email');
-            expect(res.body.user).toHaveProperty('eventHistory');
-            expect(res.body.user).toHaveProperty('password');
-            expect(res.body.user.firstName).toBe('Doug');
+            const res = await request(app)
+                .patch('/api/users/rosaleekunde@test-jc.com')
+                .send(updateBody)
+                .expect(200);
+            expect(res.body.user).toHaveProperty('acknowledged');
+            expect(res.body.user).toHaveProperty('modifiedCount');
+            expect(res.body.user).toHaveProperty('matchedCount');
+            expect(res.body.user.acknowledged).toBe(true);
+            expect(res.body.user.modifiedCount).toBe(1);
+            expect(res.body.user.matchedCount).toBe(1);
+
+            const userCheck = await User.findOne({
+                email: 'rosaleekunde@test-jc.com',
+            });
+            expect(userCheck).toHaveProperty('avatarUrl');
+            expect(userCheck).toHaveProperty('_id');
+            expect(userCheck).toHaveProperty('firstName');
+            expect(userCheck).toHaveProperty('lastName');
+            expect(userCheck).toHaveProperty('email');
+            expect(userCheck).toHaveProperty('eventHistory');
+            expect(userCheck).toHaveProperty('password');
+            expect(userCheck.firstName).toBe('Doug');
         });
     });
 });
@@ -180,7 +194,10 @@ describe('EVENTS', () => {
                             'Manchester M19 3WX',
                             'United Kingdom',
                         ],
-                        coordinates: { latitude: 53.441223, longitude: -2.189375 },
+                        coordinates: {
+                            latitude: 53.441223,
+                            longitude: -2.189375,
+                        },
                         phoneNo: '+44 161 432 7184',
                         rating: 4.5,
                         price: '£',
@@ -189,7 +206,7 @@ describe('EVENTS', () => {
                             'https://s3-media1.fl.yelpcdn.com/bphoto/MSYzaWFPjYmnYtQQoctaag/o.jpg',
                         url: 'https://www.yelp.com/biz/trove-cafe-bakery-manchester?adjust_creative=NU9lAcDMMPSLSkTaTUlw-g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=NU9lAcDMMPSLSkTaTUlw-g',
                     },
-                ]
+                ],
             };
             const res = await request(app)
                 .post('/api/events')
@@ -223,7 +240,10 @@ describe('EVENTS', () => {
                             'Manchester M19 3WX',
                             'United Kingdom',
                         ],
-                        coordinates: { latitude: 53.441223, longitude: -2.189375 },
+                        coordinates: {
+                            latitude: 53.441223,
+                            longitude: -2.189375,
+                        },
                         phoneNo: '+44 161 432 7184',
                         rating: 4.5,
                         price: '£',
@@ -232,7 +252,7 @@ describe('EVENTS', () => {
                             'https://s3-media1.fl.yelpcdn.com/bphoto/MSYzaWFPjYmnYtQQoctaag/o.jpg',
                         url: 'https://www.yelp.com/biz/trove-cafe-bakery-manchester?adjust_creative=NU9lAcDMMPSLSkTaTUlw-g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=NU9lAcDMMPSLSkTaTUlw-g',
                     },
-                ]
+                ],
             };
             const res = await request(app)
                 .post('/api/events')

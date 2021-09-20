@@ -26,9 +26,8 @@ export const findUserByEmail = async (email: string) => {
     const res = await User.findOne({ email: email });
     return res;
 };
-export const updateUserByEmail = async(email: string, updateUserBody: any) =>{
-    const res = await User.updateOne({email:email}, updateUserBody);
-    // console.log("res", res)
-    // console.log(email, updateUserBody)
+
+export const updateUserByEmail = async (email: string, updateUserBody: any) => {
+    const res = await User.updateOne({ email: email }, updateUserBody);
     return res;
 };
