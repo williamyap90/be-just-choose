@@ -14,3 +14,9 @@ export const addEvent = async ({ eventName, organiser, endDate }: any) => {
     const res = await new Event(newEvent).save();
     return res;
 };
+
+export const findEventsByName = async (eventName: string) => {
+    const formattedEventName = eventName.replace('+', ' ');
+    const res = await Event.find({ eventName: formattedEventName });
+    return res;
+};
