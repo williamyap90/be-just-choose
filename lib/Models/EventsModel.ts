@@ -15,8 +15,17 @@ export const addEvent = async ({ eventName, organiser, endDate }: any) => {
     return res;
 };
 
-export const findEventsByName = async (eventName: string) => {
+export const findEventByName = async (eventName: string) => {
     const formattedEventName = eventName.replace('+', ' ');
     const res = await Event.find({ eventName: formattedEventName });
+    return res;
+};
+
+export const updateEventByName = async (eventName: string, updateBody: any) => {
+    const formattedEventName = eventName.replace('+', ' ');
+    const res = await Event.updateOne(
+        { eventName: formattedEventName },
+        updateBody
+    );
     return res;
 };
