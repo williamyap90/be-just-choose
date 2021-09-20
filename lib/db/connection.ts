@@ -7,7 +7,9 @@ export let dbURL: any;
 if (!process.env.DATABASE_URL) {
     throw new Error('No database set');
 } else {
-    dbURL = process.env.DATABASE_URL;
+    const dbUser = process.env.DB_USER;
+    const dbPass = process.env.DB_PASSWORD;
+    dbURL = `mongodb+srv://${dbUser}:${dbPass}@justchoose.spif4.mongodb.net/just-choose?retryWrites=true&w=majority`;
 }
 
 export let db: any = mongoose

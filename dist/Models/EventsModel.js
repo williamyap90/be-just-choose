@@ -9,26 +9,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addNewUser = exports.findUserByEmail = exports.findUsers = void 0;
+exports.addEvent = exports.findEvents = void 0;
 const Schemas_1 = require("../Schemas/Schemas");
-const findUsers = () => __awaiter(void 0, void 0, void 0, function* () {
-    const res = yield Schemas_1.User.find({});
+const findEvents = () => __awaiter(void 0, void 0, void 0, function* () {
+    const res = yield Schemas_1.Event.find({});
     return res;
 });
-exports.findUsers = findUsers;
-const findUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
-    const res = yield Schemas_1.User.findOne({ email: email });
-    return res;
-});
-exports.findUserByEmail = findUserByEmail;
-const addNewUser = ({ firstName, lastName, email, password, }) => __awaiter(void 0, void 0, void 0, function* () {
-    const newUser = {
-        firstName,
-        lastName,
-        email,
-        password,
+exports.findEvents = findEvents;
+const addEvent = ({ eventName, organiser, endDate }) => __awaiter(void 0, void 0, void 0, function* () {
+    const newEvent = {
+        eventName,
+        organiser,
+        endDate,
     };
-    const res = yield new Schemas_1.User(newUser).save();
+    const res = yield new Schemas_1.Event(newEvent).save();
     return res;
 });
-exports.addNewUser = addNewUser;
+exports.addEvent = addEvent;

@@ -1,6 +1,7 @@
 import express from 'express';
 import endpoint from '../endpoints.json';
 import usersRouter from './UsersRouter';
+import eventsRouter from './EventsRouter';
 import axios from 'axios';
 
 const apiRouter = express.Router();
@@ -10,7 +11,7 @@ apiRouter.get('/', (req, res, next) => {
 });
 
 apiRouter.use('/users', usersRouter);
-// apiRouter.use('/events', eventsRouter);
+apiRouter.use('/events', eventsRouter);
 
 apiRouter.get('/restaurants', (req, res) => {
     //refactor

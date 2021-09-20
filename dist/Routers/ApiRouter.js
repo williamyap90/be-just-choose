@@ -6,13 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const endpoints_json_1 = __importDefault(require("../endpoints.json"));
 const UsersRouter_1 = __importDefault(require("./UsersRouter"));
+const EventsRouter_1 = __importDefault(require("./EventsRouter"));
 const axios_1 = __importDefault(require("axios"));
 const apiRouter = express_1.default.Router();
 apiRouter.get('/', (req, res, next) => {
     res.status(200).send(endpoints_json_1.default);
 });
 apiRouter.use('/users', UsersRouter_1.default);
-// apiRouter.use('/events', eventsRouter);
+apiRouter.use('/events', EventsRouter_1.default);
 apiRouter.get('/restaurants', (req, res) => {
     //refactor
     const reviewsAPI = axios_1.default.create({
