@@ -1,5 +1,5 @@
 import express from 'express';
-import { findUsers, findUserByEmail, addNewUser } from '../Models/UsersModel';
+import { findUsers, findUserByEmail, addNewUser , updateUserByEmail} from '../Models/UsersModel';
 
 export const getUsers: express.RequestHandler = (req, res, next) => {
     findUsers()
@@ -14,6 +14,15 @@ export const getUsers: express.RequestHandler = (req, res, next) => {
         });
 };
 
+export const postUser: express.RequestHandler = (req, res) => {
+    addNewUser(req.body)
+        .then((user) => {
+            res.status(201).send({ user });
+        })
+        .catch((err) => {
+            res.status(400).send(err);
+        });
+};
 export const getUserByEmail: express.RequestHandler = (req, res, next) => {
     const { email } = req.params;
     findUserByEmail(email)
@@ -27,13 +36,18 @@ export const getUserByEmail: express.RequestHandler = (req, res, next) => {
             res.status(400).send(err);
         });
 };
-
-export const postUser: express.RequestHandler = (req, res) => {
-    addNewUser(req.body)
-        .then((user) => {
-            res.status(201).send({ user });
-        })
-        .catch((err) => {
-            res.status(400).send(err);
-        });
+export const patchUserByEmail: express.RequestHandler = (res, req, next)=>{
+    const { email } = req.req.params;
+    const updateUserBody = req.req.body;
+    console.log(res.statusCode);
+    updateUserByEmail(email, updateUserBody).then((user)=>{
+    //     if (!user) {
+    //         res.status(404).send();
+    //     }
+    //     res.status(200).send({ user });
+    // })
+    // .catch((err) => {
+    //     res.status(400).send(err);
+    // });
+    });
 };
