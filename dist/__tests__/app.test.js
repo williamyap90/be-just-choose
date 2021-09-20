@@ -142,6 +142,7 @@ describe('EVENTS', () => {
                 eventName: 'Monday Madness',
                 organiser: 'will@will.com',
                 endDate: '2021-09-28T19:08:04.963Z',
+                //restaurantList
             };
             const res = yield request(app)
                 .post('/api/events')
