@@ -109,7 +109,7 @@ describe('USERS', () => {
             );
         });
     });
-    describe("GET: /api/users/:email", ()=>{
+    describe('GET: /api/users/:email', ()=>{
         test('200: returns the user details ', async() => {
             const res = await request(app).get('/api/users/rosaleekunde@test-jc.com');
             expect(res.body.user).toHaveProperty('avatarUrl');
@@ -123,16 +123,16 @@ describe('USERS', () => {
             expect(res.body.user.lastName).toBe('Kunde');
             expect(res.body.user.email).toBe('rosaleekunde@test-jc.com');
             expect(res.body.user.password).toBe('KF1J5ertKzske3e');
-        })
+        });
         
-    })
-    describe("PATCH /api/users/:email", ()=>{
-        test("200: returns the user with updated field ", async()=>{
+    });
+    describe('PATCH /api/users/:email', ()=>{
+        test('200: returns the user with updated field ', async()=>{
             const updateBody = {
                 firstName: 'Doug'
-            }
+            };
             const res = await request(app).patch('/api/users/rosaleekunde@test-jc.com')
-            .send(updateBody).expect(200)
+                .send(updateBody).expect(200);
             expect(res.body.user).toHaveProperty('avatarUrl');
             expect(res.body.user).toHaveProperty('_id');
             expect(res.body.user).toHaveProperty('firstName');
@@ -140,9 +140,9 @@ describe('USERS', () => {
             expect(res.body.user).toHaveProperty('email');
             expect(res.body.user).toHaveProperty('eventHistory');
             expect(res.body.user).toHaveProperty('password');
-            expect(res.body.user.firstName).toBe("Doug");
-        })
-    })
+            expect(res.body.user.firstName).toBe('Doug');
+        });
+    });
 });
 describe('EVENTS', () => {
     describe('GET /api/events', () => {
