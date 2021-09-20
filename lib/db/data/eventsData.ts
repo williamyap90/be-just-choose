@@ -6,24 +6,7 @@ export const eventsData = [
         organiser: 'brayanbergnaum@test-jc.com',
         isDraft: false,
         endDate: '10/09/2021 11:00',
-        winningRestaurant: {
-            restaurantName: 'Trove Cafe + Bakery',
-            categories: ['Bakeries', 'Cafes'],
-            displayAddress: [
-                '1032 Stockport Road',
-                'Levenshulme',
-                'Manchester M19 3WX',
-                'United Kingdom',
-            ],
-            coordinates: { latitude: 53.441223, longitude: -2.189375 },
-            phoneNo: '+44 161 432 7184',
-            rating: 4.5,
-            price: '£',
-            reviewCount: 20,
-            imageUrl:
-                'https://s3-media1.fl.yelpcdn.com/bphoto/MSYzaWFPjYmnYtQQoctaag/o.jpg',
-            url: 'https://www.yelp.com/biz/trove-cafe-bakery-manchester?adjust_creative=NU9lAcDMMPSLSkTaTUlw-g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=NU9lAcDMMPSLSkTaTUlw-g',
-        },
+        winningRestaurant: {},
         voters: [
             // Array of voter emails (unique) or user Object.ids?
             'rosaleekunde@test-jc.com',
@@ -34,11 +17,24 @@ export const eventsData = [
             // Array of restaurant objects with all of restaurants information?
             // or restaurant name?
             // or create restaurant documents when shortlisted & store Object.ids?
-            { restaurantName: 'Trove Cafe + Bakery' },
-            { restaurantName: 'The Magnet Freehouse' },
-            { restaurantName: 'Pokusevskis Delicatessen and Cafe' },
-            { restaurantName: 'Nook' },
-            { restaurantName: 'Juno Cafe' },
+            {
+                restaurantName: 'Trove Cafe + Bakery',
+                categories: ['Bakeries', 'Cafes'],
+                displayAddress: [
+                    '1032 Stockport Road',
+                    'Levenshulme',
+                    'Manchester M19 3WX',
+                    'United Kingdom',
+                ],
+                coordinates: { latitude: 53.441223, longitude: -2.189375 },
+                phoneNo: '+44 161 432 7184',
+                rating: 4.5,
+                price: '£',
+                reviewCount: 20,
+                imageUrl:
+                    'https://s3-media1.fl.yelpcdn.com/bphoto/MSYzaWFPjYmnYtQQoctaag/o.jpg',
+                url: 'https://www.yelp.com/biz/trove-cafe-bakery-manchester?adjust_creative=NU9lAcDMMPSLSkTaTUlw-g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=NU9lAcDMMPSLSkTaTUlw-g',
+            },
         ],
     },
 ];
