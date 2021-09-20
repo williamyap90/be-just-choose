@@ -273,6 +273,28 @@ describe('EVENTS', () => {
             expect(res.body.event).not.toHaveProperty('maxPeople');
         }));
     });
+    describe('GET /api/events/:eventName', () => {
+        test('200: responds with the event', () => __awaiter(void 0, void 0, void 0, function* () {
+            const res = yield request(app)
+                .get('/api/events/Fat+Friday!')
+                .expect(200);
+            expect(Array.isArray(res.body.event)).toBe(true);
+            expect(res.body.event).toHaveLength(1);
+            res.body.event.forEach((event) => {
+                expect(event).toHaveProperty('_id');
+                expect(event).toHaveProperty('winningRestaurant');
+                expect(event).toHaveProperty('eventName');
+                expect(event).toHaveProperty('eventURL');
+                expect(event).toHaveProperty('dateCreated');
+                expect(event).toHaveProperty('organiser');
+                expect(event).toHaveProperty('isDraft');
+                expect(event).toHaveProperty('endDate');
+                expect(event).toHaveProperty('voters');
+                expect(event).toHaveProperty('restaurantList');
+                expect(event.eventName).toBe('Fat Friday!');
+            });
+        }));
+    });
     //PATCH (partial update keeping msising fields)
 });
 describe('RESTAURANTS', () => {

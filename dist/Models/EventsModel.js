@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addEvent = exports.findEvents = void 0;
+exports.findEventsByName = exports.addEvent = exports.findEvents = void 0;
 const Schemas_1 = require("../Schemas/Schemas");
 const findEvents = () => __awaiter(void 0, void 0, void 0, function* () {
     const res = yield Schemas_1.Event.find({});
@@ -26,3 +26,9 @@ const addEvent = ({ eventName, organiser, endDate }) => __awaiter(void 0, void 0
     return res;
 });
 exports.addEvent = addEvent;
+const findEventsByName = (eventName) => __awaiter(void 0, void 0, void 0, function* () {
+    const formattedEventName = eventName.replace('+', ' ');
+    const res = yield Schemas_1.Event.find({ eventName: formattedEventName });
+    return res;
+});
+exports.findEventsByName = findEventsByName;
