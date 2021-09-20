@@ -77,11 +77,31 @@ const EventSchema = new mongoose_1.default.Schema({
             reviewCount: Number,
             imageUrl: String,
             url: String,
+            upvotes: { type: Number, default: 0 },
+            downvotes: { type: Number, default: 0 },
         },
         default: {},
     },
     voters: { type: [String], default: [] },
-    restaurantList: { type: [{ restaurantName: String }], default: [] },
+    restaurantList: {
+        type: [
+            {
+                restaurantName: String,
+                categories: [String],
+                displayAddress: [String],
+                coordinates: { latitude: Number, longitude: Number },
+                phoneNo: String,
+                rating: Number,
+                price: String,
+                reviewCount: Number,
+                imageUrl: String,
+                url: String,
+                upvotes: { type: Number, default: 0 },
+                downvotes: { type: Number, default: 0 },
+            },
+        ],
+        default: [],
+    },
 }, { collection: 'events', versionKey: false });
 exports.User = mongoose_1.default.model('User', UserSchema);
 exports.Event = mongoose_1.default.model('Event', EventSchema);
