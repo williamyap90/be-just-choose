@@ -179,11 +179,30 @@ describe('EVENTS', () => {
         }));
         test('201: responds with the newly created event and ignores unnecessary properties', () => __awaiter(void 0, void 0, void 0, function* () {
             const newEvent = {
-                eventName: 'Thirsty Tuesday',
-                organiser: 'ammar@ammar.am',
-                endDate: '2021-10-01T11:00:04.963Z',
+                eventName: 'Monday Madness',
+                organiser: 'will@will.com',
+                endDate: '2021-09-28T19:08:04.963Z',
                 theme: 'Halloween',
                 maxPeople: 150,
+                restaurantList: [
+                    {
+                        restaurantName: 'Trove Cafe + Bakery',
+                        categories: ['Bakeries', 'Cafes'],
+                        displayAddress: [
+                            '1032 Stockport Road',
+                            'Levenshulme',
+                            'Manchester M19 3WX',
+                            'United Kingdom',
+                        ],
+                        coordinates: { latitude: 53.441223, longitude: -2.189375 },
+                        phoneNo: '+44 161 432 7184',
+                        rating: 4.5,
+                        price: '£',
+                        reviewCount: 20,
+                        imageUrl: 'https://s3-media1.fl.yelpcdn.com/bphoto/MSYzaWFPjYmnYtQQoctaag/o.jpg',
+                        url: 'https://www.yelp.com/biz/trove-cafe-bakery-manchester?adjust_creative=NU9lAcDMMPSLSkTaTUlw-g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=NU9lAcDMMPSLSkTaTUlw-g',
+                    },
+                ]
             };
             const res = yield request(app)
                 .post('/api/events')
