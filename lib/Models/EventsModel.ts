@@ -5,11 +5,19 @@ export const findEvents = async () => {
     return res;
 };
 
-export const addEvent = async ({ eventName, organiser, endDate }: any) => {
+export const addEvent = async ({
+    eventName,
+    organiser,
+    endDate,
+    restaurantList,
+}: any) => {
+    console.log(restaurantList, '<<< restaurantList in addEvent');
+
     const newEvent = {
         eventName,
         organiser,
         endDate,
+        restaurantList,
     };
     const res = await new Event(newEvent).save();
     return res;

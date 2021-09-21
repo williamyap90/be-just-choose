@@ -16,11 +16,13 @@ const findEvents = () => __awaiter(void 0, void 0, void 0, function* () {
     return res;
 });
 exports.findEvents = findEvents;
-const addEvent = ({ eventName, organiser, endDate }) => __awaiter(void 0, void 0, void 0, function* () {
+const addEvent = ({ eventName, organiser, endDate, restaurantList, }) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(restaurantList, '<<< restaurantList in addEvent');
     const newEvent = {
         eventName,
         organiser,
         endDate,
+        restaurantList,
     };
     const res = yield new Schemas_1.Event(newEvent).save();
     return res;
