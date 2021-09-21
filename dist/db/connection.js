@@ -13,8 +13,8 @@ if (!process.env.DATABASE_URL) {
 else {
     const dbUser = process.env.DB_USER;
     const dbPass = process.env.DB_PASSWORD;
-    // dbURL = `mongodb+srv://${dbUser}:${dbPass}@justchoose.spif4.mongodb.net/just-choose?retryWrites=true&w=majority`;
-    exports.dbURL = 'mongodb://localhost/just-choose-test';
+    exports.dbURL = `mongodb+srv://${dbUser}:${dbPass}@justchoose.spif4.mongodb.net/just-choose?retryWrites=true&w=majority`;
+    // dbURL = 'mongodb://localhost/just-choose-test';
 }
 exports.db = mongoose_1.default
     .connect(exports.dbURL)
