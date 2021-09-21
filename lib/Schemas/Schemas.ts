@@ -87,7 +87,6 @@ const EventSchema = new mongoose.Schema(
         restaurantList: {
             type: [
                 {
-                    _id: mongoose.SchemaTypes.ObjectId,
                     restaurantName: String,
                     categories: [String],
                     displayAddress: [String],
