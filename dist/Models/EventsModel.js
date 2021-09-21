@@ -48,15 +48,16 @@ const updateEventByName = (eventName, updateBody) => __awaiter(void 0, void 0, v
         });
         // Assign result of GET to a variable
         const currentEvent = getEvent[0];
-        const newRestaurantList = [];
         updateBody.restaurantVotes.forEach((currentResVotes) => {
             currentEvent.restaurantList.forEach((restaurant) => {
-                if (restaurant.restaurantName === currentResVotes.restaurantName) {
+                if (restaurant.restaurantName ===
+                    currentResVotes.restaurantName &&
+                    currentResVotes.voteType === 'up') {
                     restaurant.upvotes++;
                 }
-                newRestaurantList.push(restaurant);
             });
         });
+        const newRestaurantList = [...currentEvent.restaurantList];
         res = yield Schemas_1.EventModel.updateOne({
             eventName: formattedEventName,
         }, { restaurantList: newRestaurantList });
