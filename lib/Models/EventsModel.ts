@@ -11,8 +11,6 @@ export const addEvent = async ({
     endDate,
     restaurantList,
 }: any) => {
-    console.log(restaurantList, '<<< restaurantList in addEvent');
-
     const newEvent = {
         eventName,
         organiser,
@@ -30,7 +28,7 @@ export const findEventByName = async (eventName: string) => {
 };
 
 export const findEventById = async (eventId: string) => {
-    const res = await EventModel.find({ eventId: eventId });
+    const res = await EventModel.find({ _id: eventId });
     return res;
 };
 
@@ -39,20 +37,41 @@ export const updateEventByName = async (eventName: string, updateBody: any) => {
     const formattedEventName = eventName.replace('+', ' ');
 
     if (Object.prototype.hasOwnProperty.call(updateBody, 'restaurantVotes')) {
-        // loop through updateBody (restaurantVotes) and update votes at given id
-        // res = await EventModel.updateOne(
-        //     { eventName: formattedEventName },
-        //     updateBody
-        // );
+        // GET request to find current event
+        const getEvent = await EventModel.find({
+            eventName: formattedEventName,
+        });
+        // Assign result of GET to a variable
+        const currentEvent: any = getEvent[0];
+
+        const newRestaurantList: any = [];
+
+        updateBody.restaurantVotes.forEach((currentResVotes: any) => {
+            currentEvent.restaurantList.forEach((restaurant: any) => {
+                if (
+                    restaurant.restaurantName === currentResVotes.restaurantName
+                ) {
+                    restaurant.upvotes++;
+                }
+                newRestaurantList.push(restaurant);
+            });
+        });
+
+        res = await EventModel.updateOne(
+            {
+                eventName: formattedEventName,
+            },
+            { restaurantList: newRestaurantList }
+        );
+        return res;
     } else {
         // update events properties as normal
         res = await EventModel.updateOne(
             { eventName: formattedEventName },
             updateBody
         );
+        return res;
     }
-
-    return res;
 };
 
 //GET EVENT BY EVENT ID

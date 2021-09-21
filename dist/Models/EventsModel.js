@@ -17,7 +17,6 @@ const findEvents = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.findEvents = findEvents;
 const addEvent = ({ eventName, organiser, endDate, restaurantList, }) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(restaurantList, '<<< restaurantList in addEvent');
     const newEvent = {
         eventName,
         organiser,
@@ -35,7 +34,7 @@ const findEventByName = (eventName) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.findEventByName = findEventByName;
 const findEventById = (eventId) => __awaiter(void 0, void 0, void 0, function* () {
-    const res = yield Schemas_1.EventModel.find({ eventId: eventId });
+    const res = yield Schemas_1.EventModel.find({ _id: eventId });
     return res;
 });
 exports.findEventById = findEventById;
@@ -43,17 +42,31 @@ const updateEventByName = (eventName, updateBody) => __awaiter(void 0, void 0, v
     let res;
     const formattedEventName = eventName.replace('+', ' ');
     if (Object.prototype.hasOwnProperty.call(updateBody, 'restaurantVotes')) {
-        // loop through updateBody (restaurantVotes) and update votes at given id
-        // res = await EventModel.updateOne(
-        //     { eventName: formattedEventName },
-        //     updateBody
-        // );
+        // GET request to find current event
+        const getEvent = yield Schemas_1.EventModel.find({
+            eventName: formattedEventName,
+        });
+        // Assign result of GET to a variable
+        const currentEvent = getEvent[0];
+        const newRestaurantList = [];
+        updateBody.restaurantVotes.forEach((currentResVotes) => {
+            currentEvent.restaurantList.forEach((restaurant) => {
+                if (restaurant.restaurantName === currentResVotes.restaurantName) {
+                    restaurant.upvotes++;
+                }
+                newRestaurantList.push(restaurant);
+            });
+        });
+        res = yield Schemas_1.EventModel.updateOne({
+            eventName: formattedEventName,
+        }, { restaurantList: newRestaurantList });
+        return res;
     }
     else {
         // update events properties as normal
         res = yield Schemas_1.EventModel.updateOne({ eventName: formattedEventName }, updateBody);
+        return res;
     }
-    return res;
 });
 exports.updateEventByName = updateEventByName;
 //GET EVENT BY EVENT ID

@@ -296,14 +296,45 @@ describe('EVENTS', () => {
             });
         });
     });
-    xdescribe('GET /api/events/eventById/:eventId', () => {
+    describe('GET /api/events/eventById/:eventId', () => {
         test('200: responds with the event', async () => {
+            const newEvent = {
+                eventName: 'MattsEvent',
+                organiser: 'will@will.com',
+                endDate: '2021-09-28T19:08:04.963Z',
+                theme: 'Halloween',
+                maxPeople: 150,
+                restaurantList: [
+                    {
+                        restaurantName: 'Trove Cafe + Bakery',
+                        categories: ['Bakeries', 'Cafes'],
+                        displayAddress: [
+                            '1032 Stockport Road',
+                            'Levenshulme',
+                            'Manchester M19 3WX',
+                            'United Kingdom',
+                        ],
+                        coordinates: {
+                            latitude: 53.441223,
+                            longitude: -2.189375,
+                        },
+                        phoneNo: '+44 161 432 7184',
+                        rating: 4.5,
+                        price: '£',
+                        reviewCount: 20,
+                        imageUrl:
+                            'https://s3-media1.fl.yelpcdn.com/bphoto/MSYzaWFPjYmnYtQQoctaag/o.jpg',
+                        url: 'https://www.yelp.com/biz/trove-cafe-bakery-manchester?adjust_creative=NU9lAcDMMPSLSkTaTUlw-g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=NU9lAcDMMPSLSkTaTUlw-g',
+                    },
+                ],
+            };
+            const addEvent = await new EventModel(newEvent).save();
+            const findEvent = await EventModel.find({
+                eventName: addEvent.eventName,
+            });
             const res = await request(app)
-                // GET eventName or generated eventID?
-                .get('/api/eventById/6149a60bfb8be7fb04185c6d')
+                .get(`/api/events/eventById/${findEvent[0]._id.toString()}`)
                 .expect(200);
-            console.log(res, 'res<<');
-
             expect(Array.isArray(res.body.event)).toBe(true);
             expect(res.body.event).toHaveLength(1);
             res.body.event.forEach((event: any) => {
@@ -317,7 +348,7 @@ describe('EVENTS', () => {
                 expect(event).toHaveProperty('endDate');
                 expect(event).toHaveProperty('voters');
                 expect(event).toHaveProperty('restaurantList');
-                expect(event.eventName).toBe('Fat Friday!');
+                expect(event.eventName).toBe('MattsEvent');
             });
         });
     });
@@ -361,6 +392,7 @@ describe('EVENTS', () => {
                 restaurantVotes: [
                     {
                         restaurantId: '61499a0648a24014ff7a86bd',
+                        restaurantName: 'Trove Cafe + Bakery',
                         voteType: 'upvote',
                     },
                 ],
@@ -375,25 +407,14 @@ describe('EVENTS', () => {
             expect(res.body.event.acknowledged).toBe(true);
             expect(res.body.event.modifiedCount).toBe(1);
             expect(res.body.event.matchedCount).toBe(1);
-
             // const checkEvent = await EventModel.find({
             //     eventName: 'Fat Friday!',
             // });
-            // expect(Array.isArray(checkEvent)).toBe(true);
-            // expect(checkEvent).toHaveLength(1);
-            // checkEvent.forEach((event: any) => {
-            //     expect(event).toHaveProperty('_id');
-            //     expect(event).toHaveProperty('winningRestaurant');
-            //     expect(event).toHaveProperty('eventName');
-            //     expect(event).toHaveProperty('eventURL');
-            //     expect(event).toHaveProperty('dateCreated');
-            //     expect(event).toHaveProperty('organiser');
-            //     expect(event).toHaveProperty('isDraft');
-            //     expect(event).toHaveProperty('endDate');
-            //     expect(event).toHaveProperty('voters');
-            //     expect(event).toHaveProperty('restaurantList');
-            //     expect(event.eventName).toBe('Fat Friday!');
-            // });
+            // console.log(
+            //     checkEvent[0].restaurantList[0].upvotes,
+            //     'PATCHEVENTNAME'
+            // );
+            // expect(checkEvent[0].restaurantList[0].upvotes).toBe(1);
         });
     });
 });
