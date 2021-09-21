@@ -1,5 +1,10 @@
 import express from 'express';
-import { findUsers, findUserByEmail, addNewUser } from '../Models/UsersModel';
+import {
+    findUsers,
+    findUserByEmail,
+    addNewUser,
+    updateUserByEmail,
+} from '../Models/UsersModel';
 
 export const getUsers: express.RequestHandler = (req, res, next) => {
     findUsers()
@@ -8,6 +13,16 @@ export const getUsers: express.RequestHandler = (req, res, next) => {
                 res.status(404).send();
             }
             res.status(200).send({ users });
+        })
+        .catch((err) => {
+            res.status(400).send(err);
+        });
+};
+
+export const postUser: express.RequestHandler = (req, res) => {
+    addNewUser(req.body)
+        .then((user) => {
+            res.status(201).send({ user });
         })
         .catch((err) => {
             res.status(400).send(err);
@@ -28,10 +43,15 @@ export const getUserByEmail: express.RequestHandler = (req, res, next) => {
         });
 };
 
-export const postUser: express.RequestHandler = (req, res) => {
-    addNewUser(req.body)
+export const patchUserByEmail: express.RequestHandler = (req, res, next) => {
+    const { email } = req.params;
+    const updateUserBody = req.body;
+    updateUserByEmail(email, updateUserBody)
         .then((user) => {
-            res.status(201).send({ user });
+            if (!user) {
+                res.status(400).send();
+            }
+            res.status(200).send({ user });
         })
         .catch((err) => {
             res.status(400).send(err);

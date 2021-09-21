@@ -15,6 +15,8 @@ const JSONEndPointsFile = require('../endpoints.json');
 const db = require('../db/connection.ts');
 const { seedDb } = require('../db/seeds/seedDb');
 const { dbURL } = require('../db/connection');
+const { User } = require('../Schemas/Schemas');
+// import { Event } from '../Schemas/Schemas';
 beforeAll(() => {
     mongoose.connect(dbURL);
     seedDb();
@@ -115,6 +117,50 @@ describe('USERS', () => {
             expect(res.body.message).toBe('User validation failed: lastName: Path `lastName` is required., password: Path `password` is required.');
         }));
     });
+    describe('GET /api/users/:email', () => {
+        test('200: returns the user details ', () => __awaiter(void 0, void 0, void 0, function* () {
+            const res = yield request(app).get('/api/users/rosaleekunde@test-jc.com');
+            expect(res.body.user).toHaveProperty('avatarUrl');
+            expect(res.body.user).toHaveProperty('_id');
+            expect(res.body.user).toHaveProperty('firstName');
+            expect(res.body.user).toHaveProperty('lastName');
+            expect(res.body.user).toHaveProperty('email');
+            expect(res.body.user).toHaveProperty('eventHistory');
+            expect(res.body.user).toHaveProperty('password');
+            expect(res.body.user.firstName).toBe('Rosalee');
+            expect(res.body.user.lastName).toBe('Kunde');
+            expect(res.body.user.email).toBe('rosaleekunde@test-jc.com');
+            expect(res.body.user.password).toBe('KF1J5ertKzske3e');
+        }));
+    });
+    describe('PATCH /api/users/:email', () => {
+        test('200: returns the user with updated field ', () => __awaiter(void 0, void 0, void 0, function* () {
+            const updateBody = {
+                firstName: 'Doug',
+            };
+            const res = yield request(app)
+                .patch('/api/users/rosaleekunde@test-jc.com')
+                .send(updateBody)
+                .expect(200);
+            expect(res.body.user).toHaveProperty('acknowledged');
+            expect(res.body.user).toHaveProperty('modifiedCount');
+            expect(res.body.user).toHaveProperty('matchedCount');
+            expect(res.body.user.acknowledged).toBe(true);
+            expect(res.body.user.modifiedCount).toBe(1);
+            expect(res.body.user.matchedCount).toBe(1);
+            const userCheck = yield User.findOne({
+                email: 'rosaleekunde@test-jc.com',
+            });
+            expect(userCheck).toHaveProperty('avatarUrl');
+            expect(userCheck).toHaveProperty('_id');
+            expect(userCheck).toHaveProperty('firstName');
+            expect(userCheck).toHaveProperty('lastName');
+            expect(userCheck).toHaveProperty('email');
+            expect(userCheck).toHaveProperty('eventHistory');
+            expect(userCheck).toHaveProperty('password');
+            expect(userCheck.firstName).toBe('Doug');
+        }));
+    });
 });
 describe('EVENTS', () => {
     describe('GET /api/events', () => {
@@ -142,6 +188,28 @@ describe('EVENTS', () => {
                 eventName: 'Monday Madness',
                 organiser: 'will@will.com',
                 endDate: '2021-09-28T19:08:04.963Z',
+                restaurantList: [
+                    {
+                        restaurantName: 'Trove Cafe + Bakery',
+                        categories: ['Bakeries', 'Cafes'],
+                        displayAddress: [
+                            '1032 Stockport Road',
+                            'Levenshulme',
+                            'Manchester M19 3WX',
+                            'United Kingdom',
+                        ],
+                        coordinates: {
+                            latitude: 53.441223,
+                            longitude: -2.189375,
+                        },
+                        phoneNo: '+44 161 432 7184',
+                        rating: 4.5,
+                        price: '£',
+                        reviewCount: 20,
+                        imageUrl: 'https://s3-media1.fl.yelpcdn.com/bphoto/MSYzaWFPjYmnYtQQoctaag/o.jpg',
+                        url: 'https://www.yelp.com/biz/trove-cafe-bakery-manchester?adjust_creative=NU9lAcDMMPSLSkTaTUlw-g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=NU9lAcDMMPSLSkTaTUlw-g',
+                    },
+                ],
             };
             const res = yield request(app)
                 .post('/api/events')
@@ -160,11 +228,33 @@ describe('EVENTS', () => {
         }));
         test('201: responds with the newly created event and ignores unnecessary properties', () => __awaiter(void 0, void 0, void 0, function* () {
             const newEvent = {
-                eventName: 'Thirsty Tuesday',
-                organiser: 'ammar@ammar.am',
-                endDate: '2021-10-01T11:00:04.963Z',
+                eventName: 'Monday Madness',
+                organiser: 'will@will.com',
+                endDate: '2021-09-28T19:08:04.963Z',
                 theme: 'Halloween',
                 maxPeople: 150,
+                restaurantList: [
+                    {
+                        restaurantName: 'Trove Cafe + Bakery',
+                        categories: ['Bakeries', 'Cafes'],
+                        displayAddress: [
+                            '1032 Stockport Road',
+                            'Levenshulme',
+                            'Manchester M19 3WX',
+                            'United Kingdom',
+                        ],
+                        coordinates: {
+                            latitude: 53.441223,
+                            longitude: -2.189375,
+                        },
+                        phoneNo: '+44 161 432 7184',
+                        rating: 4.5,
+                        price: '£',
+                        reviewCount: 20,
+                        imageUrl: 'https://s3-media1.fl.yelpcdn.com/bphoto/MSYzaWFPjYmnYtQQoctaag/o.jpg',
+                        url: 'https://www.yelp.com/biz/trove-cafe-bakery-manchester?adjust_creative=NU9lAcDMMPSLSkTaTUlw-g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=NU9lAcDMMPSLSkTaTUlw-g',
+                    },
+                ],
             };
             const res = yield request(app)
                 .post('/api/events')
@@ -182,6 +272,66 @@ describe('EVENTS', () => {
             expect(res.body.event).toHaveProperty('restaurantList');
             expect(res.body.event).not.toHaveProperty('theme');
             expect(res.body.event).not.toHaveProperty('maxPeople');
+        }));
+    });
+    describe('GET /api/events/:eventName', () => {
+        test('200: responds with the event', () => __awaiter(void 0, void 0, void 0, function* () {
+            const res = yield request(app)
+                // GET eventName or generated eventID?
+                .get('/api/events/Fat+Friday!')
+                .expect(200);
+            expect(Array.isArray(res.body.event)).toBe(true);
+            expect(res.body.event).toHaveLength(1);
+            res.body.event.forEach((event) => {
+                expect(event).toHaveProperty('_id');
+                expect(event).toHaveProperty('winningRestaurant');
+                expect(event).toHaveProperty('eventName');
+                expect(event).toHaveProperty('eventURL');
+                expect(event).toHaveProperty('dateCreated');
+                expect(event).toHaveProperty('organiser');
+                expect(event).toHaveProperty('isDraft');
+                expect(event).toHaveProperty('endDate');
+                expect(event).toHaveProperty('voters');
+                expect(event).toHaveProperty('restaurantList');
+                expect(event.eventName).toBe('Fat Friday!');
+            });
+        }));
+    });
+    describe('PATCH /api/events/:eventName', () => {
+        test('200: responds with the event with updated info', () => __awaiter(void 0, void 0, void 0, function* () {
+            const updateBody = {
+                isDraft: true,
+            };
+            const res = yield request(app)
+                .patch('/api/events/Fat+Friday!')
+                .send(updateBody)
+                .expect(200);
+            console.log(res.body);
+            expect(res.body.event).toHaveProperty('acknowledged');
+            expect(res.body.event).toHaveProperty('modifiedCount');
+            expect(res.body.event).toHaveProperty('matchedCount');
+            expect(res.body.event.acknowledged).toBe(true);
+            expect(res.body.event.modifiedCount).toBe(1);
+            expect(res.body.event.matchedCount).toBe(1);
+            // const checkEvent = await Event.findOne({
+            //     eventName: 'Fat+Friday!',
+            // });
+            // expect(Array.isArray(checkEvent.event)).toBe(true);
+            // expect(checkEvent.event).toHaveLength(1);
+            // checkEvent.event.forEach((event: any) => {
+            //     expect(event).toHaveProperty('_id');
+            //     expect(event).toHaveProperty('winningRestaurant');
+            //     expect(event).toHaveProperty('eventName');
+            //     expect(event).toHaveProperty('eventURL');
+            //     expect(event).toHaveProperty('dateCreated');
+            //     expect(event).toHaveProperty('organiser');
+            //     expect(event).toHaveProperty('isDraft');
+            //     expect(event).toHaveProperty('endDate');
+            //     expect(event).toHaveProperty('voters');
+            //     expect(event).toHaveProperty('restaurantList');
+            //     expect(event.eventName).toBe('Fat Friday!');
+            //     expect(event.isDraft).toBe(true);
+            // });
         }));
     });
     //PATCH (partial update keeping msising fields)

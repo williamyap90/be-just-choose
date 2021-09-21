@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postUser = exports.getUserByEmail = exports.getUsers = void 0;
+exports.patchUserByEmail = exports.getUserByEmail = exports.postUser = exports.getUsers = void 0;
 const UsersModel_1 = require("../Models/UsersModel");
 const getUsers = (req, res, next) => {
     (0, UsersModel_1.findUsers)()
@@ -15,6 +15,16 @@ const getUsers = (req, res, next) => {
     });
 };
 exports.getUsers = getUsers;
+const postUser = (req, res) => {
+    (0, UsersModel_1.addNewUser)(req.body)
+        .then((user) => {
+        res.status(201).send({ user });
+    })
+        .catch((err) => {
+        res.status(400).send(err);
+    });
+};
+exports.postUser = postUser;
 const getUserByEmail = (req, res, next) => {
     const { email } = req.params;
     (0, UsersModel_1.findUserByEmail)(email)
@@ -29,13 +39,18 @@ const getUserByEmail = (req, res, next) => {
     });
 };
 exports.getUserByEmail = getUserByEmail;
-const postUser = (req, res) => {
-    (0, UsersModel_1.addNewUser)(req.body)
+const patchUserByEmail = (req, res, next) => {
+    const { email } = req.params;
+    const updateUserBody = req.body;
+    (0, UsersModel_1.updateUserByEmail)(email, updateUserBody)
         .then((user) => {
-        res.status(201).send({ user });
+        if (!user) {
+            res.status(400).send();
+        }
+        res.status(200).send({ user });
     })
         .catch((err) => {
         res.status(400).send(err);
     });
 };
-exports.postUser = postUser;
+exports.patchUserByEmail = patchUserByEmail;

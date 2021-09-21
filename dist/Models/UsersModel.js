@@ -9,18 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addNewUser = exports.findUserByEmail = exports.findUsers = void 0;
+exports.updateUserByEmail = exports.findUserByEmail = exports.addNewUser = exports.findUsers = void 0;
 const Schemas_1 = require("../Schemas/Schemas");
 const findUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     const res = yield Schemas_1.User.find({});
     return res;
 });
 exports.findUsers = findUsers;
-const findUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
-    const res = yield Schemas_1.User.findOne({ email: email });
-    return res;
-});
-exports.findUserByEmail = findUserByEmail;
 const addNewUser = ({ firstName, lastName, email, password, }) => __awaiter(void 0, void 0, void 0, function* () {
     const newUser = {
         firstName,
@@ -32,3 +27,13 @@ const addNewUser = ({ firstName, lastName, email, password, }) => __awaiter(void
     return res;
 });
 exports.addNewUser = addNewUser;
+const findUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    const res = yield Schemas_1.User.findOne({ email: email });
+    return res;
+});
+exports.findUserByEmail = findUserByEmail;
+const updateUserByEmail = (email, updateUserBody) => __awaiter(void 0, void 0, void 0, function* () {
+    const res = yield Schemas_1.User.updateOne({ email: email }, updateUserBody);
+    return res;
+});
+exports.updateUserByEmail = updateUserByEmail;

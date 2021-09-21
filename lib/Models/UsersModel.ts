@@ -5,11 +5,6 @@ export const findUsers = async () => {
     return res;
 };
 
-export const findUserByEmail = async (email: string) => {
-    const res = await User.findOne({ email: email });
-    return res;
-};
-
 export const addNewUser = async ({
     firstName,
     lastName,
@@ -24,5 +19,15 @@ export const addNewUser = async ({
     };
 
     const res = await new User(newUser).save();
+    return res;
+};
+
+export const findUserByEmail = async (email: string) => {
+    const res = await User.findOne({ email: email });
+    return res;
+};
+
+export const updateUserByEmail = async (email: string, updateUserBody: any) => {
+    const res = await User.updateOne({ email: email }, updateUserBody);
     return res;
 };
