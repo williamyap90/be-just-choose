@@ -5,7 +5,7 @@ const JSONEndPointsFile = require('../endpoints.json');
 const db = require('../db/connection.ts');
 const { seedDb } = require('../db/seeds/seedDb');
 const { dbURL } = require('../db/connection');
-const { User } = require('../Schemas/Schemas');
+const { User, EventModel } = require('../Schemas/Schemas');
 // import { Event } from '../Schemas/Schemas';
 
 beforeAll(() => {
@@ -296,6 +296,62 @@ describe('EVENTS', () => {
             });
         });
     });
+    describe('GET /api/events/eventById/:eventId', () => {
+        test('200: responds with the event', async () => {
+            const newEvent = {
+                eventName: 'MattsEvent',
+                organiser: 'will@will.com',
+                endDate: '2021-09-28T19:08:04.963Z',
+                theme: 'Halloween',
+                maxPeople: 150,
+                restaurantList: [
+                    {
+                        restaurantName: 'Trove Cafe + Bakery',
+                        categories: ['Bakeries', 'Cafes'],
+                        displayAddress: [
+                            '1032 Stockport Road',
+                            'Levenshulme',
+                            'Manchester M19 3WX',
+                            'United Kingdom',
+                        ],
+                        coordinates: {
+                            latitude: 53.441223,
+                            longitude: -2.189375,
+                        },
+                        phoneNo: '+44 161 432 7184',
+                        rating: 4.5,
+                        price: '£',
+                        reviewCount: 20,
+                        imageUrl:
+                            'https://s3-media1.fl.yelpcdn.com/bphoto/MSYzaWFPjYmnYtQQoctaag/o.jpg',
+                        url: 'https://www.yelp.com/biz/trove-cafe-bakery-manchester?adjust_creative=NU9lAcDMMPSLSkTaTUlw-g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=NU9lAcDMMPSLSkTaTUlw-g',
+                    },
+                ],
+            };
+            const addEvent = await new EventModel(newEvent).save();
+            const findEvent = await EventModel.find({
+                eventName: addEvent.eventName,
+            });
+            const res = await request(app)
+                .get(`/api/events/eventById/${findEvent[0]._id.toString()}`)
+                .expect(200);
+            expect(Array.isArray(res.body.event)).toBe(true);
+            expect(res.body.event).toHaveLength(1);
+            res.body.event.forEach((event: any) => {
+                expect(event).toHaveProperty('_id');
+                expect(event).toHaveProperty('winningRestaurant');
+                expect(event).toHaveProperty('eventName');
+                expect(event).toHaveProperty('eventURL');
+                expect(event).toHaveProperty('dateCreated');
+                expect(event).toHaveProperty('organiser');
+                expect(event).toHaveProperty('isDraft');
+                expect(event).toHaveProperty('endDate');
+                expect(event).toHaveProperty('voters');
+                expect(event).toHaveProperty('restaurantList');
+                expect(event.eventName).toBe('MattsEvent');
+            });
+        });
+    });
     describe('PATCH /api/events/:eventName', () => {
         test('200: responds with the event with updated info', async () => {
             const updateBody = {
@@ -305,37 +361,62 @@ describe('EVENTS', () => {
                 .patch('/api/events/Fat+Friday!')
                 .send(updateBody)
                 .expect(200);
-            console.log(res.body);
-
             expect(res.body.event).toHaveProperty('acknowledged');
             expect(res.body.event).toHaveProperty('modifiedCount');
             expect(res.body.event).toHaveProperty('matchedCount');
             expect(res.body.event.acknowledged).toBe(true);
             expect(res.body.event.modifiedCount).toBe(1);
             expect(res.body.event.matchedCount).toBe(1);
-
-            // const checkEvent = await Event.findOne({
-            //     eventName: 'Fat+Friday!',
+            const checkEvent = await EventModel.find({
+                eventName: 'Fat Friday!',
+            });
+            expect(Array.isArray(checkEvent)).toBe(true);
+            expect(checkEvent).toHaveLength(1);
+            checkEvent.forEach((event: any) => {
+                expect(event).toHaveProperty('_id');
+                expect(event).toHaveProperty('winningRestaurant');
+                expect(event).toHaveProperty('eventName');
+                expect(event).toHaveProperty('eventURL');
+                expect(event).toHaveProperty('dateCreated');
+                expect(event).toHaveProperty('organiser');
+                expect(event).toHaveProperty('isDraft');
+                expect(event).toHaveProperty('endDate');
+                expect(event).toHaveProperty('voters');
+                expect(event).toHaveProperty('restaurantList');
+                expect(event.eventName).toBe('Fat Friday!');
+                expect(event.isDraft).toBe(true);
+            });
+        });
+        test('200: responds with the event with updated votes on restaurant', async () => {
+            const updateBody = {
+                restaurantVotes: [
+                    {
+                        restaurantId: '61499a0648a24014ff7a86bd',
+                        restaurantName: 'Trove Cafe + Bakery',
+                        voteType: 'upvote',
+                    },
+                ],
+            };
+            const res = await request(app)
+                .patch('/api/events/Fat+Friday!')
+                .send(updateBody)
+                .expect(200);
+            expect(res.body.event).toHaveProperty('acknowledged');
+            expect(res.body.event).toHaveProperty('modifiedCount');
+            expect(res.body.event).toHaveProperty('matchedCount');
+            expect(res.body.event.acknowledged).toBe(true);
+            expect(res.body.event.modifiedCount).toBe(1);
+            expect(res.body.event.matchedCount).toBe(1);
+            // const checkEvent = await EventModel.find({
+            //     eventName: 'Fat Friday!',
             // });
-            // expect(Array.isArray(checkEvent.event)).toBe(true);
-            // expect(checkEvent.event).toHaveLength(1);
-            // checkEvent.event.forEach((event: any) => {
-            //     expect(event).toHaveProperty('_id');
-            //     expect(event).toHaveProperty('winningRestaurant');
-            //     expect(event).toHaveProperty('eventName');
-            //     expect(event).toHaveProperty('eventURL');
-            //     expect(event).toHaveProperty('dateCreated');
-            //     expect(event).toHaveProperty('organiser');
-            //     expect(event).toHaveProperty('isDraft');
-            //     expect(event).toHaveProperty('endDate');
-            //     expect(event).toHaveProperty('voters');
-            //     expect(event).toHaveProperty('restaurantList');
-            //     expect(event.eventName).toBe('Fat Friday!');
-            //     expect(event.isDraft).toBe(true);
-            // });
+            // console.log(
+            //     checkEvent[0].restaurantList[0].upvotes,
+            //     'PATCHEVENTNAME'
+            // );
+            // expect(checkEvent[0].restaurantList[0].upvotes).toBe(1);
         });
     });
-    //PATCH (partial update keeping msising fields)
 });
 describe('RESTAURANTS', () => {
     describe('GET /api/restaurants', () => {

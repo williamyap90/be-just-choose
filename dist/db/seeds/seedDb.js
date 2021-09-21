@@ -41,10 +41,10 @@ const seedDb = () => {
                 return;
             }
             if (collectionNames.length > 0) {
-                Schemas_1.Event.collection.drop();
+                Schemas_1.EventModel.collection.drop();
                 console.log('Events collection dropped');
             }
-            Schemas_1.Event.insertMany(eventsData_1.eventsData)
+            Schemas_1.EventModel.insertMany(eventsData_1.eventsData)
                 .then((events) => {
                 // console.log(`${events.length} events seeded`);
             })

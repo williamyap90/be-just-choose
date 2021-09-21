@@ -1,6 +1,6 @@
 import { usersData } from '../data/usersData';
 import { eventsData } from '../data/eventsData';
-import { User, Event } from '../../Schemas/Schemas';
+import { User, EventModel } from '../../Schemas/Schemas';
 import mongoose from 'mongoose';
 import { dbURL } from '../connection';
 
@@ -36,10 +36,10 @@ const seedLocalDb = () => {
                     return;
                 }
                 if (collectionNames!.length > 0) {
-                    Event.collection.drop();
+                    EventModel.collection.drop();
                     console.log('Events collection dropped');
                 }
-                Event.insertMany(eventsData)
+                EventModel.insertMany(eventsData)
                     .then((events) => {
                         console.log(`${events.length} events seeded`);
                     })
