@@ -1,7 +1,7 @@
-import { Event } from '../Schemas/Schemas';
+import { EventModel } from '../Schemas/Schemas';
 
 export const findEvents = async () => {
-    const res = await Event.find({});
+    const res = await EventModel.find({});
     return res;
 };
 
@@ -19,21 +19,40 @@ export const addEvent = async ({
         endDate,
         restaurantList,
     };
-    const res = await new Event(newEvent).save();
+    const res = await new EventModel(newEvent).save();
     return res;
 };
 
 export const findEventByName = async (eventName: string) => {
     const formattedEventName = eventName.replace('+', ' ');
-    const res = await Event.find({ eventName: formattedEventName });
+    const res = await EventModel.find({ eventName: formattedEventName });
+    return res;
+};
+
+export const findEventById = async (eventId: string) => {
+    const res = await EventModel.find({ eventId: eventId });
     return res;
 };
 
 export const updateEventByName = async (eventName: string, updateBody: any) => {
+    let res;
     const formattedEventName = eventName.replace('+', ' ');
-    const res = await Event.updateOne(
-        { eventName: formattedEventName },
-        updateBody
-    );
+
+    if (Object.prototype.hasOwnProperty.call(updateBody, 'restaurantVotes')) {
+        // loop through updateBody (restaurantVotes) and update votes at given id
+        // res = await EventModel.updateOne(
+        //     { eventName: formattedEventName },
+        //     updateBody
+        // );
+    } else {
+        // update events properties as normal
+        res = await EventModel.updateOne(
+            { eventName: formattedEventName },
+            updateBody
+        );
+    }
+
     return res;
 };
+
+//GET EVENT BY EVENT ID

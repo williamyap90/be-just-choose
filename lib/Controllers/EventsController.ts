@@ -4,6 +4,7 @@ import {
     findEvents,
     findEventByName,
     updateEventByName,
+    findEventById,
 } from '../Models/EventsModel';
 
 export const getEvents: express.RequestHandler = (req, res, next) => {
@@ -32,6 +33,20 @@ export const postEvent: express.RequestHandler = (req, res, next) => {
 export const getEventByName: express.RequestHandler = (req, res, next) => {
     const { eventName } = req.params;
     findEventByName(eventName)
+        .then((event) => {
+            if (!event) {
+                res.status(404).send();
+            }
+            res.status(200).send({ event });
+        })
+        .catch((err) => {
+            res.send(400).send(err);
+        });
+};
+
+export const getEventById: express.RequestHandler = (req, res, next) => {
+    const { eventId } = req.params;
+    findEventById(eventId)
         .then((event) => {
             if (!event) {
                 res.status(404).send();

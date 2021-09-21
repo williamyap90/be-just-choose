@@ -5,7 +5,7 @@ const JSONEndPointsFile = require('../endpoints.json');
 const db = require('../db/connection.ts');
 const { seedDb } = require('../db/seeds/seedDb');
 const { dbURL } = require('../db/connection');
-const { User } = require('../Schemas/Schemas');
+const { User, EventModel } = require('../Schemas/Schemas');
 // import { Event } from '../Schemas/Schemas';
 
 beforeAll(() => {
@@ -296,6 +296,31 @@ describe('EVENTS', () => {
             });
         });
     });
+    xdescribe('GET /api/events/eventById/:eventId', () => {
+        test('200: responds with the event', async () => {
+            const res = await request(app)
+                // GET eventName or generated eventID?
+                .get('/api/eventById/6149a60bfb8be7fb04185c6d')
+                .expect(200);
+            console.log(res, 'res<<');
+
+            expect(Array.isArray(res.body.event)).toBe(true);
+            expect(res.body.event).toHaveLength(1);
+            res.body.event.forEach((event: any) => {
+                expect(event).toHaveProperty('_id');
+                expect(event).toHaveProperty('winningRestaurant');
+                expect(event).toHaveProperty('eventName');
+                expect(event).toHaveProperty('eventURL');
+                expect(event).toHaveProperty('dateCreated');
+                expect(event).toHaveProperty('organiser');
+                expect(event).toHaveProperty('isDraft');
+                expect(event).toHaveProperty('endDate');
+                expect(event).toHaveProperty('voters');
+                expect(event).toHaveProperty('restaurantList');
+                expect(event.eventName).toBe('Fat Friday!');
+            });
+        });
+    });
     describe('PATCH /api/events/:eventName', () => {
         test('200: responds with the event with updated info', async () => {
             const updateBody = {
@@ -305,8 +330,45 @@ describe('EVENTS', () => {
                 .patch('/api/events/Fat+Friday!')
                 .send(updateBody)
                 .expect(200);
-            console.log(res.body);
-
+            expect(res.body.event).toHaveProperty('acknowledged');
+            expect(res.body.event).toHaveProperty('modifiedCount');
+            expect(res.body.event).toHaveProperty('matchedCount');
+            expect(res.body.event.acknowledged).toBe(true);
+            expect(res.body.event.modifiedCount).toBe(1);
+            expect(res.body.event.matchedCount).toBe(1);
+            const checkEvent = await EventModel.find({
+                eventName: 'Fat Friday!',
+            });
+            expect(Array.isArray(checkEvent)).toBe(true);
+            expect(checkEvent).toHaveLength(1);
+            checkEvent.forEach((event: any) => {
+                expect(event).toHaveProperty('_id');
+                expect(event).toHaveProperty('winningRestaurant');
+                expect(event).toHaveProperty('eventName');
+                expect(event).toHaveProperty('eventURL');
+                expect(event).toHaveProperty('dateCreated');
+                expect(event).toHaveProperty('organiser');
+                expect(event).toHaveProperty('isDraft');
+                expect(event).toHaveProperty('endDate');
+                expect(event).toHaveProperty('voters');
+                expect(event).toHaveProperty('restaurantList');
+                expect(event.eventName).toBe('Fat Friday!');
+                expect(event.isDraft).toBe(true);
+            });
+        });
+        test('200: responds with the event with updated votes on restaurant', async () => {
+            const updateBody = {
+                restaurantVotes: [
+                    {
+                        restaurantId: '61499a0648a24014ff7a86bd',
+                        voteType: 'upvote',
+                    },
+                ],
+            };
+            const res = await request(app)
+                .patch('/api/events/Fat+Friday!')
+                .send(updateBody)
+                .expect(200);
             expect(res.body.event).toHaveProperty('acknowledged');
             expect(res.body.event).toHaveProperty('modifiedCount');
             expect(res.body.event).toHaveProperty('matchedCount');
@@ -314,12 +376,12 @@ describe('EVENTS', () => {
             expect(res.body.event.modifiedCount).toBe(1);
             expect(res.body.event.matchedCount).toBe(1);
 
-            // const checkEvent = await Event.findOne({
-            //     eventName: 'Fat+Friday!',
+            // const checkEvent = await EventModel.find({
+            //     eventName: 'Fat Friday!',
             // });
-            // expect(Array.isArray(checkEvent.event)).toBe(true);
-            // expect(checkEvent.event).toHaveLength(1);
-            // checkEvent.event.forEach((event: any) => {
+            // expect(Array.isArray(checkEvent)).toBe(true);
+            // expect(checkEvent).toHaveLength(1);
+            // checkEvent.forEach((event: any) => {
             //     expect(event).toHaveProperty('_id');
             //     expect(event).toHaveProperty('winningRestaurant');
             //     expect(event).toHaveProperty('eventName');
@@ -331,11 +393,9 @@ describe('EVENTS', () => {
             //     expect(event).toHaveProperty('voters');
             //     expect(event).toHaveProperty('restaurantList');
             //     expect(event.eventName).toBe('Fat Friday!');
-            //     expect(event.isDraft).toBe(true);
             // });
         });
     });
-    //PATCH (partial update keeping msising fields)
 });
 describe('RESTAURANTS', () => {
     describe('GET /api/restaurants', () => {

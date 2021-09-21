@@ -117,7 +117,7 @@ const EventSchema = new mongoose.Schema(
 // }
 
 export const User = mongoose.model('User', UserSchema);
-export const Event = mongoose.model('Event', EventSchema);
+export const EventModel = mongoose.model('Event', EventSchema);
 
 // Object from front end - single restaurant
 // {

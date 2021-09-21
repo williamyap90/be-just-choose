@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Event = exports.User = void 0;
+exports.EventModel = exports.User = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const UserSchema = new mongoose_1.default.Schema({
     firstName: { type: String, required: true },
@@ -111,7 +111,7 @@ const EventSchema = new mongoose_1.default.Schema({
 //     password: string;
 // }
 exports.User = mongoose_1.default.model('User', UserSchema);
-exports.Event = mongoose_1.default.model('Event', EventSchema);
+exports.EventModel = mongoose_1.default.model('Event', EventSchema);
 // Object from front end - single restaurant
 // {
 //     name:'fuel',

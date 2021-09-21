@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.patchEventByName = exports.getEventByName = exports.postEvent = exports.getEvents = void 0;
+exports.patchEventByName = exports.getEventById = exports.getEventByName = exports.postEvent = exports.getEvents = void 0;
 const EventsModel_1 = require("../Models/EventsModel");
 const getEvents = (req, res, next) => {
     (0, EventsModel_1.findEvents)()
@@ -39,6 +39,20 @@ const getEventByName = (req, res, next) => {
     });
 };
 exports.getEventByName = getEventByName;
+const getEventById = (req, res, next) => {
+    const { eventId } = req.params;
+    (0, EventsModel_1.findEventById)(eventId)
+        .then((event) => {
+        if (!event) {
+            res.status(404).send();
+        }
+        res.status(200).send({ event });
+    })
+        .catch((err) => {
+        res.send(400).send(err);
+    });
+};
+exports.getEventById = getEventById;
 const patchEventByName = (req, res, next) => {
     const { eventName } = req.params;
     const updateBody = req.body;
