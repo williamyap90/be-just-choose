@@ -41,21 +41,22 @@ export const updateEventByName = async (eventName: string, updateBody: any) => {
         const getEvent = await EventModel.find({
             eventName: formattedEventName,
         });
+
         // Assign result of GET to a variable
         const currentEvent: any = getEvent[0];
-
-        const newRestaurantList: any = [];
 
         updateBody.restaurantVotes.forEach((currentResVotes: any) => {
             currentEvent.restaurantList.forEach((restaurant: any) => {
                 if (
-                    restaurant.restaurantName === currentResVotes.restaurantName
+                    restaurant.restaurantName ===
+                        currentResVotes.restaurantName &&
+                    currentResVotes.voteType === 'up'
                 ) {
                     restaurant.upvotes++;
                 }
-                newRestaurantList.push(restaurant);
             });
         });
+        const newRestaurantList: any = [...currentEvent.restaurantList];
 
         res = await EventModel.updateOne(
             {

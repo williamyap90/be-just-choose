@@ -393,7 +393,12 @@ describe('EVENTS', () => {
                     {
                         restaurantId: '61499a0648a24014ff7a86bd',
                         restaurantName: 'Trove Cafe + Bakery',
-                        voteType: 'upvote',
+                        voteType: 'up',
+                    },
+                    {
+                        restaurantId: '61499a0648a24014ff7a86bd',
+                        restaurantName: 'The Magnet Freehouse',
+                        voteType: 'up',
                     },
                 ],
             };
