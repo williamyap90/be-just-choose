@@ -184,7 +184,7 @@ describe('EVENTS', () => {
             const res = await request(app).get('/api/events/eventsbyorganiser/brayanbergnaum@test-jc.com').expect(200);
             expect(Array.isArray(res.body.events)).toBe(true);
             expect(res.body.events).toHaveLength(2);
-            console.log(res.body.events)
+            console.log(res.body.events);
             res.body.events.forEach((event: any) => {
                 expect(typeof event).toBe('object');
                 expect(event).toHaveProperty('_id');

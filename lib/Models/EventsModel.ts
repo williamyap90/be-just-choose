@@ -10,7 +10,7 @@ export const findEventsByOrganiser = async (organiser:string) => {
     
 
     return res;
-}
+};
 
 export const addEvent = async ({
     eventName,

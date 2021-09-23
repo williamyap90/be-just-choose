@@ -10,7 +10,7 @@ import express from 'express';
 const eventsRouter = express.Router();
 
 eventsRouter.route('/').get(getEvents).post(postEvent);
-eventsRouter.route('/eventsbyorganiser/:organiser').get(getEventsByOrganiser)
+eventsRouter.route('/eventsbyorganiser/:organiser').get(getEventsByOrganiser);
 
 
 
