@@ -7,6 +7,7 @@ const EventsController_1 = require("../Controllers/EventsController");
 const express_1 = __importDefault(require("express"));
 const eventsRouter = express_1.default.Router();
 eventsRouter.route('/').get(EventsController_1.getEvents).post(EventsController_1.postEvent);
+eventsRouter.route('/eventsbyorganiser/:organiser').get(EventsController_1.getEventsByOrganiser);
 eventsRouter.route('/:eventName').get(EventsController_1.getEventByName).patch(EventsController_1.patchEventByName);
 eventsRouter.route('/eventById/:eventId').get(EventsController_1.getEventById);
 exports.default = eventsRouter;
