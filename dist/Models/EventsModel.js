@@ -9,13 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateEventByName = exports.findEventById = exports.findEventByName = exports.addEvent = exports.findEvents = void 0;
+exports.updateEventByName = exports.findEventById = exports.findEventByName = exports.addEvent = exports.findEventsByOrganiser = exports.findEvents = void 0;
 const Schemas_1 = require("../Schemas/Schemas");
 const findEvents = () => __awaiter(void 0, void 0, void 0, function* () {
     const res = yield Schemas_1.EventModel.find({});
     return res;
 });
 exports.findEvents = findEvents;
+const findEventsByOrganiser = (organiser) => __awaiter(void 0, void 0, void 0, function* () {
+    const res = yield Schemas_1.EventModel.find({ organiser: organiser });
+    return res;
+});
+exports.findEventsByOrganiser = findEventsByOrganiser;
 const addEvent = ({ eventName, organiser, endDate, restaurantList, }) => __awaiter(void 0, void 0, void 0, function* () {
     const newEvent = {
         eventName,

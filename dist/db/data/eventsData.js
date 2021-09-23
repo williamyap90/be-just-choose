@@ -73,10 +73,10 @@ exports.eventsData = [
                 url: 'https://www.yelp.com/biz/pokusevskis-delicatessen-and-cafe-stockport?adjust_creative=NU9lAcDMMPSLSkTaTUlw-g&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=NU9lAcDMMPSLSkTaTUlw-g',
             },
         ],
-    }, 
+    },
     {
         eventName: 'Fat Thursday!',
-        eventURL: 'http://just-choose.com/event/1234567',
+        eventURL: 'http://just-choose.com/event/12345',
         dateCreated: '01/09/2021 17:30',
         organiser: 'brayanbergnaum@test-jc.com',
         isDraft: false,

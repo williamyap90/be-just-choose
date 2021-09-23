@@ -182,6 +182,27 @@ describe('EVENTS', () => {
             });
         }));
     });
+    describe('GET /api/eventsbyorganiser/:organiser', () => {
+        test('200: returns a list of the events', () => __awaiter(void 0, void 0, void 0, function* () {
+            const res = yield request(app).get('/api/events/eventsbyorganiser/brayanbergnaum@test-jc.com').expect(200);
+            expect(Array.isArray(res.body.events)).toBe(true);
+            expect(res.body.events).toHaveLength(2);
+            console.log(res.body.events);
+            res.body.events.forEach((event) => {
+                expect(typeof event).toBe('object');
+                expect(event).toHaveProperty('_id');
+                expect(event).toHaveProperty('winningRestaurant');
+                expect(event).toHaveProperty('eventName');
+                expect(event).toHaveProperty('eventURL');
+                expect(event).toHaveProperty('dateCreated');
+                expect(event).toHaveProperty('organiser');
+                expect(event).toHaveProperty('isDraft');
+                expect(event).toHaveProperty('endDate');
+                expect(event).toHaveProperty('voters');
+                expect(event).toHaveProperty('restaurantList');
+            });
+        }));
+    });
     describe('POST /api/events', () => {
         test('201: responds with the newly created event', () => __awaiter(void 0, void 0, void 0, function* () {
             const newEvent = {
