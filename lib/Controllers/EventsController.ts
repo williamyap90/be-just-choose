@@ -5,6 +5,7 @@ import {
     findEventByName,
     updateEventByName,
     findEventById,
+    findEventsByOrganiser
 } from '../Models/EventsModel';
 
 export const getEvents: express.RequestHandler = (req, res, next) => {
@@ -19,6 +20,16 @@ export const getEvents: express.RequestHandler = (req, res, next) => {
             res.send(400).send(err);
         });
 };
+
+export const getEventsByOrganiser: express.RequestHandler = (req, res, next) => {
+    const {organiser} = req.params
+    findEventsByOrganiser(organiser)
+    .then((events) => {
+        res.status(200).send({ events })
+    }).catch((err) => {
+        res.send(400).send(err);
+    })
+}
 
 export const postEvent: express.RequestHandler = (req, res, next) => {
     addEvent(req.body)

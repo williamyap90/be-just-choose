@@ -5,6 +5,13 @@ export const findEvents = async () => {
     return res;
 };
 
+export const findEventsByOrganiser = async (organiser:string) => {
+    const res = await EventModel.find({organiser : organiser});
+    
+
+    return res;
+}
+
 export const addEvent = async ({
     eventName,
     organiser,
