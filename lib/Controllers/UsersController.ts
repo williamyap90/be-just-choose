@@ -4,6 +4,7 @@ import {
     findUserByEmail,
     addNewUser,
     updateUserByEmail,
+    fetchUserLogin,
 } from '../Models/UsersModel';
 
 export const getUsers: express.RequestHandler = (req, res, next) => {
@@ -47,6 +48,21 @@ export const patchUserByEmail: express.RequestHandler = (req, res, next) => {
     const { email } = req.params;
     const updateUserBody = req.body;
     updateUserByEmail(email, updateUserBody)
+        .then((user) => {
+            if (!user) {
+                res.status(400).send();
+            }
+            res.status(200).send({ user });
+        })
+        .catch((err) => {
+            res.status(400).send(err);
+        });
+};
+
+export const getUserLogin: express.RequestHandler = (req, res, next) => {
+    const { email } = req.params;
+    const { password } = req.body;
+    fetchUserLogin(email, password)
         .then((user) => {
             if (!user) {
                 res.status(400).send();

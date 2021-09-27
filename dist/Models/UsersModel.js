@@ -8,9 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserByEmail = exports.findUserByEmail = exports.addNewUser = exports.findUsers = void 0;
+exports.fetchUserLogin = exports.updateUserByEmail = exports.findUserByEmail = exports.addNewUser = exports.findUsers = void 0;
 const Schemas_1 = require("../Schemas/Schemas");
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const saltRounds = 12;
 const findUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     const res = yield Schemas_1.User.find({});
     return res;
@@ -23,6 +28,13 @@ const addNewUser = ({ firstName, lastName, email, password, }) => __awaiter(void
         email,
         password,
     };
+    try {
+        const hashPw = yield bcrypt_1.default.hash(newUser.password, saltRounds);
+        newUser.password = hashPw;
+    }
+    catch (err) {
+        console.log(err);
+    }
     const res = yield new Schemas_1.User(newUser).save();
     return res;
 });
@@ -37,3 +49,20 @@ const updateUserByEmail = (email, updateUserBody) => __awaiter(void 0, void 0, v
     return res;
 });
 exports.updateUserByEmail = updateUserByEmail;
+const fetchUserLogin = (email, password) => __awaiter(void 0, void 0, void 0, function* () {
+    const res = yield Schemas_1.User.findOne({ email: email });
+    if (res) {
+        const checkPw = yield bcrypt_1.default.compare(password, res.password);
+        if (checkPw) {
+            return res;
+        }
+        else {
+            return Promise.reject({
+                status: 400,
+                message: 'Incorrect password',
+            });
+        }
+    }
+    return res;
+});
+exports.fetchUserLogin = fetchUserLogin;

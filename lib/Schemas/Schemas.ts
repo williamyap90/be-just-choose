@@ -116,7 +116,17 @@ const EventSchema = new mongoose.Schema(
 //     password: string;
 // }
 
-export const User = mongoose.model('User', UserSchema);
+interface UserDoc extends mongoose.Document {
+    _id: any;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    avatarUrl: string;
+    eventHistory: any;
+}
+
+export const User = mongoose.model<UserDoc>('User', UserSchema);
 export const EventModel = mongoose.model('Event', EventSchema);
 
 // Object from front end - single restaurant
