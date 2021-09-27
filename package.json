@@ -38,6 +38,7 @@
         "ts-node": "^10.2.1"
     },
     "devDependencies": {
+        "@types/bcrypt": "^5.0.0",
         "@types/cors": "^2.8.12",
         "@types/faker": "^5.5.8",
         "@types/jest": "^27.0.1",
