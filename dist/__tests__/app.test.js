@@ -184,10 +184,11 @@ describe('EVENTS', () => {
     });
     describe('GET /api/eventsbyorganiser/:organiser', () => {
         test('200: returns a list of the events', () => __awaiter(void 0, void 0, void 0, function* () {
-            const res = yield request(app).get('/api/events/eventsbyorganiser/brayanbergnaum@test-jc.com').expect(200);
+            const res = yield request(app)
+                .get('/api/events/eventsbyorganiser/brayanbergnaum@test-jc.com')
+                .expect(200);
             expect(Array.isArray(res.body.events)).toBe(true);
             expect(res.body.events).toHaveLength(2);
-            console.log(res.body.events);
             res.body.events.forEach((event) => {
                 expect(typeof event).toBe('object');
                 expect(event).toHaveProperty('_id');
