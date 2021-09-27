@@ -75,7 +75,7 @@ describe('USERS', () => {
             expect(res.body.user.firstName).toBe('Dave');
             expect(res.body.user.lastName).toBe('David');
             expect(res.body.user.email).toBe('dave@David.com');
-            expect(res.body.user.password).toBe('kjhfkjwhefkjwhefkj');
+            expect(typeof res.body.user.password).toBe('string');
         }));
         test('201: responds with the newly created user and ignores unnecessary properties', () => __awaiter(void 0, void 0, void 0, function* () {
             const newUser = {
@@ -102,7 +102,7 @@ describe('USERS', () => {
             expect(res.body.user.firstName).toBe('Tom');
             expect(res.body.user.lastName).toBe('Thomas');
             expect(res.body.user.email).toBe('tom@tomtom.com');
-            expect(res.body.user.password).toBe('tommytomtom');
+            expect(typeof res.body.user.password).toBe('string');
         }));
         test('400: responds with an error required fields are missing', () => __awaiter(void 0, void 0, void 0, function* () {
             const newUser = {
@@ -161,6 +161,42 @@ describe('USERS', () => {
             expect(userCheck.firstName).toBe('Doug');
         }));
     });
+    describe('POST /api/users/:email', () => {
+        test('200: returns with the user successfully logged in', () => __awaiter(void 0, void 0, void 0, function* () {
+            const newUser = {
+                firstName: 'Abbbbb',
+                lastName: 'Abbbbb',
+                email: 'abcabc@abc.com',
+                password: 'abcdefg',
+            };
+            const addNewUser = yield request(app)
+                .post('/api/users')
+                .send(newUser)
+                .expect(201);
+            expect(addNewUser.body.user).toHaveProperty('avatarUrl');
+            expect(addNewUser.body.user).toHaveProperty('_id');
+            expect(addNewUser.body.user).toHaveProperty('firstName');
+            expect(addNewUser.body.user).toHaveProperty('lastName');
+            expect(addNewUser.body.user).toHaveProperty('email');
+            expect(addNewUser.body.user).toHaveProperty('eventHistory');
+            expect(addNewUser.body.user).toHaveProperty('password');
+            expect(typeof addNewUser.body.user.password).toBe('string');
+            const loginBody = {
+                password: newUser.password,
+            };
+            const res = yield request(app)
+                .post('/api/users/abcabc@abc.com')
+                .send(loginBody)
+                .expect(200);
+            expect(res.body.user).toHaveProperty('avatarUrl');
+            expect(res.body.user).toHaveProperty('_id');
+            expect(res.body.user).toHaveProperty('firstName');
+            expect(res.body.user).toHaveProperty('lastName');
+            expect(res.body.user).toHaveProperty('email');
+            expect(res.body.user).toHaveProperty('eventHistory');
+            expect(res.body.user).toHaveProperty('password');
+        }));
+    });
 });
 describe('EVENTS', () => {
     describe('GET /api/events', () => {
@@ -184,10 +220,11 @@ describe('EVENTS', () => {
     });
     describe('GET /api/eventsbyorganiser/:organiser', () => {
         test('200: returns a list of the events', () => __awaiter(void 0, void 0, void 0, function* () {
-            const res = yield request(app).get('/api/events/eventsbyorganiser/brayanbergnaum@test-jc.com').expect(200);
+            const res = yield request(app)
+                .get('/api/events/eventsbyorganiser/brayanbergnaum@test-jc.com')
+                .expect(200);
             expect(Array.isArray(res.body.events)).toBe(true);
             expect(res.body.events).toHaveLength(2);
-            console.log(res.body.events);
             res.body.events.forEach((event) => {
                 expect(typeof event).toBe('object');
                 expect(event).toHaveProperty('_id');

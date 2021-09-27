@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.patchUserByEmail = exports.getUserByEmail = exports.postUser = exports.getUsers = void 0;
+exports.getUserLogin = exports.patchUserByEmail = exports.getUserByEmail = exports.postUser = exports.getUsers = void 0;
 const UsersModel_1 = require("../Models/UsersModel");
 const getUsers = (req, res, next) => {
     (0, UsersModel_1.findUsers)()
@@ -54,3 +54,18 @@ const patchUserByEmail = (req, res, next) => {
     });
 };
 exports.patchUserByEmail = patchUserByEmail;
+const getUserLogin = (req, res, next) => {
+    const { email } = req.params;
+    const { password } = req.body;
+    (0, UsersModel_1.fetchUserLogin)(email, password)
+        .then((user) => {
+        if (!user) {
+            res.status(400).send();
+        }
+        res.status(200).send({ user });
+    })
+        .catch((err) => {
+        res.status(400).send(err);
+    });
+};
+exports.getUserLogin = getUserLogin;

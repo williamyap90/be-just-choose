@@ -103,13 +103,6 @@ const EventSchema = new mongoose_1.default.Schema({
         default: [],
     },
 }, { collection: 'events', versionKey: false });
-//upvotes downvotes both default to 0 everytime you add restaurant
-// export interface UserDoc extends Document {
-//     firstName: string;
-//     lastName: string;
-//     email: string;
-//     password: string;
-// }
 exports.User = mongoose_1.default.model('User', UserSchema);
 exports.EventModel = mongoose_1.default.model('Event', EventSchema);
 // Object from front end - single restaurant
