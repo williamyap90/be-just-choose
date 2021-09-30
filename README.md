@@ -8,7 +8,6 @@
 -   [Setting up environment variables](#setting-up-environment-variables)
 -   [Seeding the database](#seeding-the-database)
 -   [Running tests with Jest](#running-tests-with-jest)
--   [Complete list of endpoints](#complete-list-of-endpoints)
 
 ## Description
 
@@ -86,12 +85,4 @@ To run the tests:
 ```
     npm test                                // run all tests
 
-```
-
-## Examples
-
-API path url:
-
-```
-    https://nc-boardgames.herokuapp.com/api/
 ```
