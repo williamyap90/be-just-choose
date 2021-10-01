@@ -86,3 +86,21 @@ To run the tests:
     npm test                                // run all tests
 
 ```
+
+## List of Endpoints
+
+```
+GET     /api
+GET     /api/users
+POST    /api/users
+GET     /api/users/:email
+PATCH   /api/users/:email
+POST    /api/users/:email
+GET     /api/events
+GET     /api/eventsbyorganiser/:organiser
+POST    /api/events
+GET     /api/events/:eventName
+GET     /api/events/eventById/:eventId
+PATCH   /api/events/:eventName
+GET     /api/restaurants
+```
